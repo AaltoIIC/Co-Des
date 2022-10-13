@@ -1,0 +1,18 @@
+# This is a DRAFT document!
+dt-id: 124
+type: Rotor
+alkios:
+- inCoordinate: 0
+  outCoordinate: 1
+  type: shaft-discrete # shaft-continuous
+  parameters:
+    k: 5.496e9  # Rotor stiffness
+    J_in: 5770  # Rotor inner inertia
+    J_out: 97030  # Rotor outer inertia
+    c: 0
+- startCoordinate: 0
+  endCoordinate: 1
+  type: disc
+  parameters:
+    I: 2987
+    c: 0
