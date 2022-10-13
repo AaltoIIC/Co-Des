@@ -1,0 +1,28 @@
+# This is a DRAFT document!
+dt-id: 987
+type: DesignTemplate
+description: Initial DT document for developing a Digital Design Template
+assembly:
+- inCoordinate: 0
+  outCoordinate: 1
+  type: Turbine
+  required params:
+  - k1
+  - J1
+  Accepted ranges:
+  - param: k1
+    range: 3-5
+- position: 2
+  type: Rotor
+  required params:
+  - k2
+  - J2
+  - J3
+  Accepted ranges:
+  - y: 7
+simulator:
+- language: python
+  software: OpenTorsion
+  Script ID: 9876
+catalogs:
+- dt-id: 1234
