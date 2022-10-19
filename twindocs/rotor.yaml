@@ -1,7 +1,7 @@
 # This is a DRAFT document!
 dt-id: 124
 type: Rotor
-alkios:
+elements:
 - inCoordinate: 0
   outCoordinate: 1
   type: shaft-discrete # shaft-continuous
