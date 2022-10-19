@@ -4,7 +4,7 @@
         "@vocab": "https://twinschema.org/"
       },
       {
-        "ddt": "https://dtt.twinschema.org/"
+        "ddt": "https://ddt.twinschema.org/"
       },
       {
         "tors": "https://tors.twinschema.org/"
