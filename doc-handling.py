@@ -4,16 +4,27 @@ import json
 import pprint
 import yaml
 
+# Define DTID for windmill document
+windmill_dtid = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
+
+# Fetch mDT document from twinbase
+windmill_doc = dtweb.client.fetch_dt_doc(windmill_dtid)
+
 # Define filename
 file = 'twindocs/windmillComponent.yaml'
 
-# Open DT document in YAML format
-with open(file[:-5] + '.yaml', 'r') as yamlfile:
-        yamldoc = yaml.load(yamlfile, Loader=yaml.FullLoader)
 
-# Dump contents of YAML to JSON
+# Open DT document in YAML format
+# with open(file[:-5] + '.yaml', 'r') as yamlfile:
+#         yamldoc = yaml.load(yamlfile, Loader=yaml.FullLoader)
+
+# Dump contents of windmill doc to YAML
+with open(file[:-5] + '.yaml', 'w') as filew:
+    yaml.dump(windmill_doc, filew, default_flow_style=False, sort_keys=False, allow_unicode=True)
+
+# Dump contents of windmill doc to JSON
 with open(file[:-5] + '.json', 'w') as jsonfilew:
-    json.dump(yamldoc, jsonfilew, indent=4)
+    json.dump(windmill_doc, jsonfilew, indent=4)
 
 # Open the newly generated JSON file, just for lulz
 with open(file[:-5] + '.json', 'r') as jsonfiler:
