@@ -17,7 +17,7 @@ ELEMENTS = "https://tors.twinschema.org/elements"
 DISK = "https://tors.twinschema.org/Disk"
 DAMPING = "https://tors.twinschema.org/damping"
 INCOORDINATE = "https://tors.twinschema.org/inCoordinate"
-OUTCOODINATE = "https://tors.twinschema.org/outCoordinate"
+OUTCOORDINATE = "https://tors.twinschema.org/outCoordinate"
 INERTIA = "https://tors.twinschema.org/inertia"
 SHAFTDISCRETE = "https://tors.twinschema.org/ShaftDiscrete"
 STIFFNESS = "https://tors.twinschema.org/stiffness"
@@ -60,7 +60,7 @@ def create_disk(element):
     return disk
 
 def create_shaft_discrete(element):
-    shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOODINATE][0]['@value']), None, None, k=float(element[STIFFNESS][0]['@value']), I=float(element[INERTIA][0]['@value'])) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
+    shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOODINATE][0]['@value']), None, None, k=float(element[STIFFNESS][0]['@value']), I=float(element[INERTIA][0]['@value']))git  #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
     #print(shaft)
     return shaft
 
