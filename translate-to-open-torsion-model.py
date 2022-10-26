@@ -21,6 +21,10 @@ OUTCOORDINATE = "https://tors.twinschema.org/outCoordinate"
 INERTIA = "https://tors.twinschema.org/inertia"
 SHAFTDISCRETE = "https://tors.twinschema.org/ShaftDiscrete"
 STIFFNESS = "https://tors.twinschema.org/stiffness"
+LENGTH = "https://tors.twinschema.org/length" #TODO: update
+OUTER_DIAMETER = "https://tors.twinschema.org/outerDiameter" #TODO: update
+INNER_DIAMETER = "https://tors.twinschema.org/innerDiameter" #TODO: update
+
 
 
 def get_file_in_dict(filename):
@@ -55,16 +59,30 @@ def translate_to_open_torsion_model(expanded_doc):
 
 
 def create_disk(element):
-    disk = Disk(int(element[INCOORDINATE][0]['@value']), float(element[INERTIA][0]['@value'])) #, element[DAMPING][0]['@value']) #Disk(node, inertia, c=0) 
+    disk = Disk(int(element[INCOORDINATE][0]['@value']), float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value']) #Disk(node, inertia, c=0) 
     #print(disk)
     return disk
 
 def create_shaft_discrete(element):
-    shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOODINATE][0]['@value']), None, None, k=float(element[STIFFNESS][0]['@value']), I=float(element[INERTIA][0]['@value']))git  #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
-    #print(shaft)
+    try:
+        stiffness = float(element[STIFFNESS][0]['@value'])
+        shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), None, None, k=stiffness, I=float(element[INERTIA][0]['@value']), c=float(element[DAMPING][0]['@value'])) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
+
+    except:
+        #Stiffness does not exist. Using outer diameter, length, and optionally inner diameter for shaft calculations
+        outer_diameter = element[OUTER_DIAMETER][0]['@value']
+        length = element[LENGTH][0]['@value']
+        try:
+            inner_diameter = element[INNER_DIAMETER][0]['@value']
+        except:
+            #Inner diameter is not defined
+            inner_diameter = None
+
+    shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), length, outer_diameter, idl=inner_diameter, I=float(element[INERTIA][0]['@value']), c=float(element[DAMPING][0]['@value'])) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
     return shaft
 
 def analysis(assembly):
+    from opentorsion.plots import Plots
     #Copied from openTorsion examples
     ## Calculation of the eigenfrequencies of the powertrain
     omegas_damped, eigenfrequencies, damping_ratios = assembly.modal_analysis()
@@ -86,10 +104,12 @@ def main():
     #print(dict_file)
     expanded_doc = jsonld.expand(dict_file) #<-- Why everything is a list?
     #print('Expanded document (with PyLD):')
+
     #pprint.pprint(expanded_doc)
     assembly = translate_to_open_torsion_model(expanded_doc)
     
     #Analyze model
+    analysis(assembly)
 
 
 if __name__ == "__main__":
