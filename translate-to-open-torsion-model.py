@@ -50,8 +50,7 @@ def translate_to_open_torsion_model(expanded_doc):
         if element["@type"] == [DISK]:
             disks.append(create_disk(element))
         elif element["@type"] == [SHAFTDISCRETE]:
-            pass
-            #shafts.append(create_shaft_discrete(element))
+            shafts.append(create_shaft_discrete(element))
         else:
             print("Element type not recognized, ignoring element...")
 
@@ -60,13 +59,28 @@ def translate_to_open_torsion_model(expanded_doc):
 
 def create_disk(element):
     disk = Disk(int(element[INCOORDINATE][0]['@value']), float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value']) #Disk(node, inertia, c=0) 
+    print("Disk: ", int(element[INCOORDINATE][0]['@value']), float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value'])
     #print(disk)
     return disk
 
 def create_shaft_discrete(element):
+    #stiffness = float(element[STIFFNESS][0]['@value'])
+    #print("Shaft", int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), None, None, stiffness, float(element[INERTIA][0]['@value']), float(element[DAMPING][0]['@value']))
+    try:
+        inertia = float(element[INERTIA][0]['@value'])
+    except:
+        inertia = 0
+
+    try:
+        damping = float(element[DAMPING][0]['@value'])
+    except:
+        damping = 0
+
+
     try:
         stiffness = float(element[STIFFNESS][0]['@value'])
-        shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), None, None, k=stiffness, I=float(element[INERTIA][0]['@value']), c=float(element[DAMPING][0]['@value'])) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
+        print("Shaft", int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), None, None, stiffness, inertia, damping)
+        shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), None, None, k=stiffness, I=inertia, c=damping) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
 
     except:
         #Stiffness does not exist. Using outer diameter, length, and optionally inner diameter for shaft calculations
@@ -77,8 +91,8 @@ def create_shaft_discrete(element):
         except:
             #Inner diameter is not defined
             inner_diameter = None
-
-    shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), length, outer_diameter, idl=inner_diameter, I=float(element[INERTIA][0]['@value']), c=float(element[DAMPING][0]['@value'])) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
+        shaft = Shaft(int(element[INCOORDINATE][0]['@value']), int(element[OUTCOORDINATE][0]['@value']), length, outer_diameter, idl=inner_diameter, I=inertia, c=damping) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
+    
     return shaft
 
 def analysis(assembly):
