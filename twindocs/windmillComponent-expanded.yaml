@@ -1,5 +1,7 @@
 - '@type':
   - https://ddt.twinschema.org/Component
+  https://twinschema.org/baseurl:
+  - '@value': https://juusoautiosalo.github.io/dev-twinbase-ddt
   https://twinschema.org/description:
   - '@value': '[Draft] Design template component according to an example defined  in
       https://github.com/Aalto-Arotor/openTorsion/blob/main/opentorsion/examples/windmill.py
@@ -7,7 +9,15 @@
 
       '
   https://twinschema.org/dt-id:
-  - '@value': 345
+  - '@value': https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371
+  https://twinschema.org/edit:
+  - '@value': https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.yaml
+  https://twinschema.org/edit-json:
+  - '@value': https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.json
+  https://twinschema.org/hosting-iri:
+  - '@value': https://juusoautiosalo.github.io/dev-twinbase-ddt/e09a43fa-fea6-41e7-907b-3fb5a0d17371
+  https://twinschema.org/name:
+  - '@value': Windmill component
   https://tors.twinschema.org/elements:
   - '@type':
     - https://tors.twinschema.org/Disk

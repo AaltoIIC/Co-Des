@@ -10,7 +10,9 @@
             "tors": "https://tors.twinschema.org/"
         }
     ],
-    "dt-id": 345,
+    "dt-id": "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371",
+    "hosting-iri": "https://juusoautiosalo.github.io/dev-twinbase-ddt/e09a43fa-fea6-41e7-907b-3fb5a0d17371",
+    "name": "Windmill component",
     "description": "[Draft] Design template component according to an example defined  in https://github.com/Aalto-Arotor/openTorsion/blob/main/opentorsion/examples/windmill.py . Used for creating a simulation on OpenTorsion.\n",
     "@type": "ddt:Component",
     "tors:elements": [
@@ -46,5 +48,8 @@
             "tors:inertia": 97030,
             "tors:damping": 0
         }
-    ]
+    ],
+    "baseurl": "https://juusoautiosalo.github.io/dev-twinbase-ddt",
+    "edit": "https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.yaml",
+    "edit-json": "https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.json"
 }
