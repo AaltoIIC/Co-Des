@@ -3,6 +3,8 @@ Developing Digital Design Template, starting with the openTorsion PoC.
 
 OpenTorsion examples: https://github.com/Aalto-Arotor/openTorsion/tree/main/opentorsion/examples
 
+Twin documents for development are located in this Twinbase instance: https://juusoautiosalo.github.io/dev-twinbase-ddt/
+
 ## Install
 Clone source code
 ```sh
