@@ -12,8 +12,6 @@ from opentorsion.assembly import Assembly
 
 WINDMILL_DTID = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
 
-# FILENAME = "twindocs/windmillComponent.yaml"
-
 #How these should be fectched? Using some schema?
 ELEMENTS = "https://tors.twinschema.org/elements"
 DISK = "https://tors.twinschema.org/Disk"
@@ -28,20 +26,6 @@ OUTER_DIAMETER = "https://tors.twinschema.org/outerDiameter" #TODO: update
 INNER_DIAMETER = "https://tors.twinschema.org/innerDiameter" #TODO: update
 
 
-
-# def get_file_in_dict(filename):
-#     if filename[-5:] == '.yaml':
-#         with open(filename, 'r') as yamlfile:
-#             doc = yaml.load(yamlfile, Loader=yaml.FullLoader)
-
-#     elif filename[-5:]== '.json':
-#         with open(filename, 'r') as jsonfiler:
-#             doc = json.load(jsonfiler)
-
-#     else:
-#         raise Exception("File format not supported. The supported formats are YAML and JSON.")
-
-#     return doc
 
 def translate_to_open_torsion_model(expanded_doc):
     shafts, disks = [], []
@@ -116,7 +100,6 @@ def analysis(assembly):
 
 
 def main():
-    # dict_file = get_file_in_dict(FILENAME)
     dict_file = dtweb.client.fetch_dt_doc(WINDMILL_DTID)
     #print(dict_file)
     expanded_doc = jsonld.expand(dict_file) #<-- Why everything is a list?
