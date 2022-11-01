@@ -2,15 +2,9 @@ import dtweb
 from cmath import exp
 from venv import create
 from pyld import jsonld
-import json
-import pprint
-import yaml
 from opentorsion.disk_element import Disk
 from opentorsion.shaft_element import Shaft
 from opentorsion.assembly import Assembly
-
-
-WINDMILL_DTID = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
 
 #How these should be fectched? Using some schema?
 ELEMENTS = "https://tors.twinschema.org/elements"
@@ -25,6 +19,9 @@ LENGTH = "https://tors.twinschema.org/length" #TODO: update
 OUTER_DIAMETER = "https://tors.twinschema.org/outerDiameter" #TODO: update
 INNER_DIAMETER = "https://tors.twinschema.org/innerDiameter" #TODO: update
 
+
+def find_highest_out_coordinate(expanded_doc):
+    pass
 
 
 def translate_to_open_torsion_model(expanded_doc):
@@ -82,35 +79,21 @@ def create_shaft_discrete(element):
     return shaft
 
 def analysis(assembly):
-    from opentorsion.plots import Plots
-    #Copied from openTorsion examples
-    ## Calculation of the eigenfrequencies of the powertrain
-    omegas_damped, eigenfrequencies, damping_ratios = assembly.modal_analysis()
+    print("Some basic analysis could be defined here")
 
-    ## Print eigenfrequencies.
-    ## The list contains each eigenfrequency twice: e.g. eigenfrequencies = [1st, 1st, 2nd, 2nd, 3rd, 3rd, ...]
-    print("Eigenfrequencies: ", eigenfrequencies.round(3))
-
-    ## Initiate plotting tools calling Plots(assembly)
-    plot_tools = Plots(assembly)
-
-    ## Plot eigenmodes, input number of eigenmodes
-    plot_tools.figure_eigenmodes(modes=3)
-    plot_tools.campbell_diagram()
-
+def return_assembly_from_url(dtid):
+    #Read dt doc from Twinbase
+    dict_file = dtweb.client.fetch_dt_doc(dtid)
+    #Expand dt doc
+    expanded_doc = jsonld.expand(dict_file)
+    #Create assembly using the doc
+    return translate_to_open_torsion_model(expanded_doc)
 
 def main():
-    dict_file = dtweb.client.fetch_dt_doc(WINDMILL_DTID)
-    #print(dict_file)
-    expanded_doc = jsonld.expand(dict_file) #<-- Why everything is a list?
-    #print('Expanded document (with PyLD):')
-
-    #pprint.pprint(expanded_doc)
-    assembly = translate_to_open_torsion_model(expanded_doc)
-    
-    #Analyze model
+    dtid_model = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
+    #Read dt doc from Twinbase
+    assembly = return_assembly_from_url(dtid_model)
     analysis(assembly)
-
 
 if __name__ == "__main__":
     main()
