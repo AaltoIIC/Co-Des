@@ -2,8 +2,8 @@ from openTorsion_converter import return_multi_component_assembly_from_url
 
 
 def analysis(assembly):
-    pass
-    """Sampo and Urho add analysis for assembly here
+    
+    # Sampo and Urho add analysis for assembly here
     from opentorsion.plots import Plots
     #Copied from openTorsion examples
     ## Calculation of the eigenfrequencies of the powertrain
@@ -19,7 +19,6 @@ def analysis(assembly):
     ## Plot eigenmodes, input number of eigenmodes
     plot_tools.figure_eigenmodes(modes=3)
     plot_tools.campbell_diagram()
-    """
 
 
 
