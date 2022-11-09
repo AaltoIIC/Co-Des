@@ -1,10 +1,12 @@
 from openTorsion_converter import return_multi_component_assembly_from_list_of_urls
+from forced_response import forced_response
 import dtweb
 from pyld import jsonld
 import numpy as np
 import itertools
 import random
 import heapq
+import pprint
 
 DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"
 CATALOGUES = ["https://dtid.org/2d94ede9-eb21-4972-a142-141611ea922e"]
@@ -20,6 +22,7 @@ COMPONENT_POSITION = "https://ddt.twinschema.org/position"
 COMPONENT_REQUIREMENTS = "https://ddt.twinschema.org/requirements"
 COMPONENT_REQUIREMENT_TYPE = "https://ddt.twinschema.org/requirementType"
 COMPONENT_TYPE = "https://ddt.twinschema.org/componentType"
+WINDMILL_FORCED_RESPONSE_ANALYSIS = "https://tors.twinschema.org/TorqueAmplitudeAnalysis"
 
 #tors:
 
@@ -31,7 +34,27 @@ def print_results(results_array):
         print(idx, results_array[idx])
 
 def analyze_assembly(assembly, analyses): #analyses = list of analyses defined in DDT
-    return random.randint(1,100)
+    print('\nSTARTING ANALYSIS')
+    # print("analyses:")
+    # pprint.pprint(analyses)
+    analysis_results = []
+    for analysis in analyses:
+        # print('Analysis type:', WINDMILL_FORCED_RESPONSE_ANALYSIS)
+        # print('Analysis type:', analysis['@type'])
+        if WINDMILL_FORCED_RESPONSE_ANALYSIS in analysis['@type']:
+            print('\nFound windmill analysis!\n')
+            rpm_linspace = np.linspace(0.1, 25, 5000)
+
+            max_amplitude = forced_response(assembly, rpm_linspace)
+            print('\nMax amplitude:', max_amplitude)
+            # analysis_results.append({analysis: {'max_amplitude': max_amplitude}})
+            analysis_results.append(max_amplitude)
+        else:
+            print('\nDid not find windmill analysis.\n')
+
+
+    # return analysis_results[0][WINDMILL_FORCED_RESPONSE_ANALYSIS][max_amplitude]
+    return analysis_results[0]
 
 def find_suitable_components_from_catalogues(component_type, requirements, catalogue_urls): # component_type, requirements = component requirements part of the DDT document, catalogues = list of catalogue urls
     suitable_component_documents = []
@@ -67,7 +90,7 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
     component_options = [] #Two-dimensional list, in which first index (i) corresponds to component position and the list in that index contains DT documents of suitable components
     component_options_urls = [] #Two-dimensional list, in which first index (i) corresponds to component position and the list in that index contains urls of suitable documents
     for i in range(len(components)):
-        component_option_document, component_option_url = find_suitable_components_from_catalogues(components[i][COMPONENT_TYPE], components[i][COMPONENT_REQUIREMENTS], catalogue_urls)
+        component_option_document, component_option_url = find_suitable_components_from_catalogues(components[i]['@type'], components[i][COMPONENT_REQUIREMENTS], catalogue_urls)
         component_options.append(component_option_document)
         component_options_urls.append(component_option_url)
 
@@ -80,8 +103,8 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
             component_urls_for_assembly.append(component_options_urls[i][idx[i]])
         print(component_urls_for_assembly)
         #Creating assembly from urls
-        #assembly = return_multi_component_assembly_from_list_of_urls(component_urls_for_assembly)
-        assembly = 1
+        assembly = return_multi_component_assembly_from_list_of_urls(component_urls_for_assembly)
+        # assembly = 1
         result = analyze_assembly(assembly, analyses)
         results[idx] = result
 
