@@ -123,10 +123,10 @@ def return_components_from_json_file(filename, location=0):
     shafts, disks = translate_to_open_torsion_model(expanded_doc, location=location)
     return shafts, disks
 
-def return_multi_component_assembly_from_url(dtid):
+def return_multi_component_assembly_from_url(dtid): #In this function dtid needs to be assembly instance
     expanded_doc = read_and_expand(dtid)
     components_unsorted = expanded_doc[0][ASSEMBLY]
-    components = sorted(components_unsorted, key = lambda component: component[COMPONENT_POSITION][0]['@value'], reverse=True)
+    components = sorted(components_unsorted, key = lambda component: component[COMPONENT_POSITION][0]['@value'], reverse=False)
 
 
     shafts, disks = [], []
@@ -141,7 +141,8 @@ def return_multi_component_assembly_from_url(dtid):
 
     return Assembly(shafts, disk_elements=disks)
 
-def return_multi_component_assembly_from_json_file(filename):
+# To test assembly instance that is local json file
+def return_multi_component_assembly_from_json_file(filename): #In this function json file needs to be assembly instance
     with open(filename, 'r') as jsonfile:
         doc = json.load(jsonfile)
     expanded_doc = jsonld.expand(doc)
@@ -161,6 +162,7 @@ def return_multi_component_assembly_from_json_file(filename):
 
     return Assembly(shafts, disk_elements=disks)
 
+#To test assembly with all contents stored locally
 def return_multi_component_assembly_from_json_file_all_local(file):
     expanded_doc = jsonld.expand(file)
     components_unsorted = expanded_doc[0][ASSEMBLY]
@@ -178,26 +180,42 @@ def return_multi_component_assembly_from_json_file_all_local(file):
         disks = disks + disks_new
 
     return Assembly(shafts, disk_elements=disks)
-    
+
+#This function returns assembly from multiple components. The components are given as a list of dtid urls. NOTE: The order of components in list defines their place in assembly, i.e., index = 0 is the first component.
+def return_multi_component_assembly_from_list_of_urls(list_of_dtids):
+    shafts, disks = [], []
+    highest_out_coordinate = 0 #current highest coordinate
+    #For each component in list_of_dtids, get nodes (i.e. shafts and disks)
+    for component_url in list_of_dtids:
+        shafts_new, disks_new = return_components_from_url(component_url, location=highest_out_coordinate)
+        highest_out_coordinate = find_highest_out_coordinate(shafts_new, disks_new)
+        shafts = shafts + shafts_new
+        disks = disks + disks_new
+
+    return Assembly(shafts, disk_elements=disks)
 
 
 def main():
     #Test single component
-    #dtid_model = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
-    #assembly = return_component_assembly_from_url(dtid_model)
-    #analysis(assembly)
+    # dtid_model = "https://dtid.org/e09a43fa-fea6-41e7-907b-3fb5a0d17371"
+    # assembly = return_component_assembly_from_url(dtid_model)
+    # analysis(assembly)
 
     #Test assembly
-    """
-    dtid_multicomponent_model = "https://dtid.org/890f7d85-626e-4e05-960e-9d1bc7af32fd"
-    assembly_multicomponent = return_multi_component_assembly_from_url(dtid_multicomponent_model)
-    analysis(assembly_multicomponent)
-    """
+    # dtid_multicomponent_model = "https://dtid.org/890f7d85-626e-4e05-960e-9d1bc7af32fd"
+    # assembly_multicomponent = return_multi_component_assembly_from_url(dtid_multicomponent_model)
+    # analysis(assembly_multicomponent)
 
     #For local testing of assembly file (components are read from Twinbase)
-    file_name = "twindocs/assemblyInstance.json"
-    assembly_multicomponent = return_multi_component_assembly_from_json_file(file_name)
+    # file_name = "twindocs/assemblyInstance.json"
+    # assembly_multicomponent = return_multi_component_assembly_from_json_file(file_name)
+    # analysis(assembly_multicomponent)
+
+    #Test assembly from urls
+    list_of_dtids = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"]
+    assembly_multicomponent = return_multi_component_assembly_from_list_of_urls(list_of_dtids)
     analysis(assembly_multicomponent)
+
 
 if __name__ == "__main__":
     main()
