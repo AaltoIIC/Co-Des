@@ -23,8 +23,15 @@ COMPONENT_REQUIREMENTS = "https://ddt.twinschema.org/requirements"
 COMPONENT_REQUIREMENT_TYPE = "https://ddt.twinschema.org/requirementType"
 COMPONENT_TYPE = "https://ddt.twinschema.org/componentType"
 WINDMILL_FORCED_RESPONSE_ANALYSIS = "https://tors.twinschema.org/TorqueAmplitudeAnalysis"
+REQUIREMENT = "https://ddt.twinschema.org/requirementValue"
+LOWER_THAN = "https://ddt.twinschema.org/LowerThan"
+LOWER_THAN_OR_EQUAL = "https://ddt.twinschema.org/LowerThanOrEqual"
+EQUAL = "https://ddt.twinschema.org/Equal"
+GREATER_THAN_OR_EQUAL = "https://ddt.twinschema.org/GreaterThanOrEqual"
+GREATER_THAN = "https://ddt.twinschema.org/GreaterThan"
 
 #tors:
+
 
 def generate_assembly_instance(components_list): #components_list = list of urls of components included in the assembly. Index 0 = pos 0, index 1 = pos 1, ...
     return ", ".join(components_list) #+ " result: " + str(result)
@@ -60,7 +67,6 @@ def analyze_assembly(assembly, analyses): #analyses = list of analyses defined i
 def find_suitable_components_from_catalogues(component_type, requirements, catalogue_urls): # component_type, requirements = component requirements part of the DDT document, catalogues = list of catalogue urls
     suitable_component_documents = []
     suitable_component_urls = []
-    #print(component_type)
     for catalogue_url in catalogue_urls:
         catalogue = dtweb.client.fetch_dt_doc(catalogue_url)
         expanded_catalogue = jsonld.expand(catalogue)
@@ -69,11 +75,45 @@ def find_suitable_components_from_catalogues(component_type, requirements, catal
             component_dtid = component[DTID][0]["@value"]
             component_expanded_doc = jsonld.expand(dtweb.client.fetch_dt_doc(component_dtid))
             #Here check requirements
-            #if component_expanded_doc[0][]
-            suitable_component_documents.append(component_expanded_doc)
-            suitable_component_urls.append(component_dtid)
-            #print(component_expanded_doc)
-            #print()
+            if component_type in component_expanded_doc[0]["@type"]: #The component type matches to the searched type
+                #Check other requirements
+                print(component_expanded_doc)
+                accept_component = True
+                for requirement in requirements:
+                    key = list(requirement[REQUIREMENT][0].keys())[0] #Extract key
+                    required_value = requirement[REQUIREMENT][0][key][0]["@value"]#Extract value
+                    condition = requirement["@type"][0] #Extract condition
+                    try:
+                        component_value = component_expanded_doc[0][key][0]["@value"]
+                        print("Required_value: ", required_value)
+                        print("Component_value: ", component_value)
+                        if condition == LOWER_THAN:
+                            if not component_value < required_value:
+                                accept_component = False
+                        elif condition == LOWER_THAN_OR_EQUAL:
+                            if not component_value <= required_value:
+                                accept_component = False
+                        elif condition == EQUAL:
+                            if not component_value == required_value:
+                                accept_component = False
+                        elif condition == GREATER_THAN_OR_EQUAL:
+                            if not component_value >= required_value:
+                                accept_component = False
+                        elif condition == GREATER_THAN:
+                            if not component_value > required_value:
+                                accept_component = False
+                        else:
+                            #Unknown condition
+                            accept_component = False                        
+                    except:
+                        #Key not find
+                        pass
+                
+                if accept_component:
+                    suitable_component_documents.append(component_expanded_doc)
+                    suitable_component_urls.append(component_dtid)
+                    print("component accepted", component_dtid)
+
 
         return suitable_component_documents, suitable_component_urls
 
@@ -92,8 +132,8 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
     component_options_urls = [] #Two-dimensional list, in which first index (i) corresponds to component position and the list in that index contains urls of suitable documents
     for i in range(len(components)):
         component_option_document, component_option_url = find_suitable_components_from_catalogues(components[i]['@type'], components[i][COMPONENT_REQUIREMENTS], catalogue_urls)
-        component_options.append(component_option_document)
-        component_options_urls.append(component_option_url)
+        component_option_document, component_option_url = find_suitable_components_from_catalogues(components[i]["@type"][0], components[i][COMPONENT_REQUIREMENTS], catalogue_urls)
+
 
     # Create very multidimensional array for looping through solutions
     shape = [len(suitable_components) for suitable_components in component_options_urls]
@@ -117,7 +157,6 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
         best_solutions.append( [generate_assembly_instance( [component_options_urls[i][index[i]] for i in range(len(index))] ), results[tuple(index)]] )
 
     best_solutions_sorted = sorted(best_solutions, key=lambda result: result[-1], reverse=True)
-    print(best_solutions)
     print(best_solutions_sorted)
 
 
