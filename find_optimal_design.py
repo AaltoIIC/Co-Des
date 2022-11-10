@@ -34,6 +34,7 @@ def print_results(results_array):
         print(idx, results_array[idx])
 
 def analyze_assembly(assembly, analyses): #analyses = list of analyses defined in DDT
+    return random.randint(1, 100)
     print('\nSTARTING ANALYSIS')
     # print("analyses:")
     # pprint.pprint(analyses)
