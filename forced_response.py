@@ -65,7 +65,7 @@ def get_windmill_excitation(rpm):
     return omegas, amplitudes
 
 
-def forced_response(assembly1, rpm_linspace):
+def forced_response(assembly, rpm_linspace):
     """
     Run a forced response analysis to an opentorsion assembly.
 
@@ -80,23 +80,6 @@ def forced_response(assembly1, rpm_linspace):
     Returns:
       max_amplitude: Highest vibration amplitude that occurred during the analysis.
     """
-    ## Parameters of the mechanical model
-    k1 = 3.67e8  # Nm/rad
-    k2 = 5.496e9  # Nm/rad
-    J1 = 1e7  # kgm^2
-    J2 = 5770  # kgm^2
-    J3 = 97030  # kgm^2
-
-    ## Creating assembly
-    shafts, disks = [], []
-    disks.append(Disk(0, J1))
-    shafts.append(Shaft(0, 1, None, None, k=k1, I=0))
-    disks.append(Disk(1, J2))
-    shafts.append(Shaft(1, 2, None, None, k=k2, I=0))
-    disks.append(Disk(2, J3))
-
-    assembly = Assembly(shafts, disk_elements=disks)
-
     M, K = assembly.M(), assembly.K()  # Mass and stiffness matrices
     assembly.xi = 0.02  # modal damping factor, a factor of 2 % can be used for all modes in a conservative design
     C = assembly.C_modal(M, K)  # Damping matrix
@@ -133,6 +116,7 @@ def forced_response(assembly1, rpm_linspace):
     # plot_tools.torque_response_plot(rpm_linspace, T_e, show_plot=True)
     print(T_e)
     max_amplitude = np.max(T_e)
+    print("MAX_AMPLITUDE", max_amplitude)
 
     return max_amplitude
 
