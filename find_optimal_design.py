@@ -119,8 +119,7 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
             component_urls_for_assembly.append(component_options_urls[i][idx[i]])
         print(component_urls_for_assembly)
         #Creating assembly from urls
-        #assembly = return_multi_component_assembly_from_list_of_urls(component_urls_for_assembly)
-        assembly = 1
+        assembly = return_multi_component_assembly_from_list_of_urls(component_urls_for_assembly)
         result = analyze_assembly(assembly, analyses)
         results[idx] = result
 
@@ -133,6 +132,7 @@ def find_optimal_assemblies(dtid_of_DDT, catalogue_urls, number_of_optimal_solut
 
     best_solutions_sorted = sorted(best_solutions, key=lambda result: result[-1], reverse=True)
     print(best_solutions_sorted)
+    print("RESULTS SIZE", results.size)
 
 
 
