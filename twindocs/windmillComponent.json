@@ -49,6 +49,12 @@
             "tors:damping": 0
         }
     ],
+    "tors:excitations":
+        {
+            "0": [(4, 0),  (6, 0),  (8,  0), (10,  0), (12, 0), (14, 0), (16, 0)], 
+            "1": [(4, 0),  (6, 0),  (8,  0), (10,  0), (12, 0), (14, 0), (16, 0)], 
+            "2": [(4, 0.0018),  (6, 0.0179),  (8, 0.0024), (10, 0.0034), (12, 0.0117), (14, 0.0018), (16, 0.0011)]
+        },
     "baseurl": "https://juusoautiosalo.github.io/dev-twinbase-ddt",
     "edit": "https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.yaml",
     "edit-json": "https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/e09a43fa-fea6-41e7-907b-3fb5a0d17371/index.json"

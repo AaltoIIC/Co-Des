@@ -4,10 +4,11 @@ from venv import create
 from pyld import jsonld
 from opentorsion.disk_element import Disk
 from opentorsion.shaft_element import Shaft
+from opentorsion.excitation import SystemExcitation
 from opentorsion.assembly import Assembly
 import json
 
-#How these should be fectched? Using some schema?
+#Tors
 ELEMENTS = "https://tors.twinschema.org/elements"
 DISK = "https://tors.twinschema.org/Disk"
 DAMPING = "https://tors.twinschema.org/damping"
@@ -19,10 +20,16 @@ STIFFNESS = "https://tors.twinschema.org/stiffness"
 LENGTH = "https://tors.twinschema.org/length" #TODO: update
 OUTER_DIAMETER = "https://tors.twinschema.org/outerDiameter" #TODO: update
 INNER_DIAMETER = "https://tors.twinschema.org/innerDiameter" #TODO: update
+EXCITATION = "https://tors.twinschema.org/Excitation"
 
+#DDT
 ASSEMBLY = "https://ddt.twinschema.org/assembly"
 DTID = "https://twinschema.org/dt-id"
 COMPONENT_POSITION = "https://ddt.twinschema.org/position"
+COMPONENT_PROPERTIES = "https://ddt.twinschema.org/properties"
+COMPONENT_EXCITATION = "https://tors.twinschema.org/Excitation"
+COMPONENT_EXCITATION_RPM = "https://tors.twinschema.org/excitationValuesRpmPercentage"
+
 
 
 def find_highest_out_coordinate(shafts, disks):
@@ -37,10 +44,23 @@ def find_highest_out_coordinate(shafts, disks):
 
 #Translates one component into openTorsion model
 def translate_to_open_torsion_model(expanded_doc, location=0): #location is added to all coordinates of components
-    shafts, disks = [], []
+    #Extract excitations
+    excitations = {}
+    try:
+        properties = expanded_doc[0][COMPONENT_PROPERTIES]
+        for property in properties:
+            print(property)
+            if property["@type"][0] == COMPONENT_EXCITATION:
+                node_coordinate = location + property[INCOORDINATE][0]["@value"]
+                excitations[node_coordinate] = []
+                component_excitations = property[COMPONENT_EXCITATION_RPM]
+                for i in range(0, len(component_excitations), 2):
+                    excitations[node_coordinate].append((component_excitations[i]["@value"], component_excitations[i + 1]["@value"]))
+    except:
+        print("no properties")
 
-    expanded_dict = expanded_doc[0]
-    elements =  expanded_dict["https://tors.twinschema.org/elements"]
+    shafts, disks = [], []
+    elements =  expanded_doc[0][ELEMENTS]
     for element in elements:
         if element["@type"] == [DISK]:
             disks.append(create_disk(element, location=location))
@@ -49,7 +69,9 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
         else:
             print("Element type not recognized, ignoring element...")
 
-    return shafts, disks
+    print("EXCITATIONS", excitations)
+
+    return shafts, disks, excitations
 
 
 def create_disk(element, location=0):
@@ -101,33 +123,32 @@ def read_and_expand(dtid):
 
 def return_component_assembly_from_url(dtid):
     expanded_doc = read_and_expand(dtid)
-    shafts, disks = translate_to_open_torsion_model(expanded_doc)
-    return Assembly(shafts, disk_elements=disks)
+    shafts, disks, excitation = translate_to_open_torsion_model(expanded_doc)
+    return Assembly(shafts, disk_elements=disks), excitation
 
 def return_component_assembly_from_json_file(filename):
     with open(filename, 'r') as jsonfile:
         doc = json.load(jsonfile)
     expanded_doc = jsonld.expand(doc)
-    shafts, disks = translate_to_open_torsion_model(expanded_doc)
-    return Assembly(shafts, disk_elements=disks)
+    shafts, disks, excitation = translate_to_open_torsion_model(expanded_doc)
+    return Assembly(shafts, disk_elements=disks), excitation
 
 def return_components_from_url(dtid, location=0):
     expanded_doc = read_and_expand(dtid)
-    shafts, disks = translate_to_open_torsion_model(expanded_doc, location=location)
-    return shafts, disks
+    shafts, disks, excitation = translate_to_open_torsion_model(expanded_doc, location=location)
+    return shafts, disks, excitation
 
 def return_components_from_json_file(filename, location=0):
     with open(filename, 'r') as jsonfile:
         doc = json.load(jsonfile)
     expanded_doc = jsonld.expand(doc)
-    shafts, disks = translate_to_open_torsion_model(expanded_doc, location=location)
-    return shafts, disks
+    shafts, disks, excitation = translate_to_open_torsion_model(expanded_doc, location=location)
+    return shafts, disks, excitation
 
 def return_multi_component_assembly_from_url(dtid): #In this function dtid needs to be assembly instance
     expanded_doc = read_and_expand(dtid)
     components_unsorted = expanded_doc[0][ASSEMBLY]
     components = sorted(components_unsorted, key = lambda component: component[COMPONENT_POSITION][0]['@value'], reverse=False)
-
 
     shafts, disks = [], []
     highest_out_coordinate = 0 #current highest coordinate
@@ -140,6 +161,7 @@ def return_multi_component_assembly_from_url(dtid): #In this function dtid needs
         disks = disks + disks_new
 
     return Assembly(shafts, disk_elements=disks)
+ 
 
 # To test assembly instance that is local json file
 def return_multi_component_assembly_from_json_file(filename): #In this function json file needs to be assembly instance
@@ -160,7 +182,7 @@ def return_multi_component_assembly_from_json_file(filename): #In this function 
         shafts = shafts + shafts_new
         disks = disks + disks_new
 
-    return Assembly(shafts, disk_elements=disks)
+    return Assembly(shafts, disk_elements=disks), 
 
 #To test assembly with all contents stored locally
 def return_multi_component_assembly_from_json_file_all_local(file):
@@ -193,6 +215,22 @@ def return_multi_component_assembly_from_list_of_urls(list_of_dtids):
         disks = disks + disks_new
 
     return Assembly(shafts, disk_elements=disks)
+
+
+#This function returns assembly from multiple components and node excitations as dictionary. The components are given as a list of dtid urls. NOTE: The order of components in list defines their place in assembly, i.e., index = 0 is the first component.
+def return_multi_component_assembly_and_excitation_from_list_of_urls(list_of_dtids):
+    shafts, disks, excitations = [], [], {} #excitations format {"0": [(4, 0.12), (8, 0.134)], "1": [(4, 0.013), (8, 0.067)...]...}}. Key = node, value = (omega, excitation percent from torque)
+    highest_out_coordinate = 0 #current highest coordinate
+
+    #For each component in list_of_dtids, get nodes (i.e. shafts and disks)
+    for component_url in list_of_dtids:
+        shafts_new, disks_new, excitations_new = return_components_from_url(component_url, location=highest_out_coordinate)
+        highest_out_coordinate = find_highest_out_coordinate(shafts_new, disks_new)
+        shafts = shafts + shafts_new
+        disks = disks + disks_new
+        excitations = {**excitations, **excitations_new}
+
+    return Assembly(shafts, disk_elements=disks), excitations
 
 
 def main():

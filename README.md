@@ -6,6 +6,8 @@ OpenTorsion examples: https://github.com/Aalto-Arotor/openTorsion/tree/main/open
 Twin documents for development are located in this Twinbase instance: https://juusoautiosalo.github.io/dev-twinbase-ddt/
 
 ## Install
+Note: Python 3.5 or higher is required
+
 Clone source code
 ```sh
 git clone https://github.com/AaltoIIC/digital-design-template.git
