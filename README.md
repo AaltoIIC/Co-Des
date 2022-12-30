@@ -10,7 +10,7 @@ Note: Python 3.5 or higher is required
 
 Clone source code
 ```sh
-git clone git@github.com/AaltoIIC/digital-design-template.git
+git clone git@github.com:AaltoIIC/digital-design-template.git
 cd digital-design-template
 ```
 Create and activate virtual environment (recommended)
