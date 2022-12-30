@@ -2,11 +2,11 @@ from app import app
 from flask_utils import forced_response_analysis as fra
 from flask import request
 
-@app.route('/analyze_assembly', methods=['GET', 'POST'])
+@app.route('/v1/opentorsion', methods=['GET', 'POST'])
 def assembly_analysis():
     #Not implemented
     if request.method == 'GET':
-        pass
+        return {"Warning": "This method supports only POST requests"}
 
     #Analyze assembly
     elif request.method == 'POST':

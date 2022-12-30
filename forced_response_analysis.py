@@ -100,29 +100,29 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
     ## The excitation depends on the rotational speed of the system.
     ## Here the response is calculated at each rotational speed.
     ## The responses at each rotational speed are summed up to get the total response.
+    multipliers = sorted(list(set([item[0] for sublist in excitation_dict.values() for item in sublist]))) #Get unique multipliers from exitation dict, and sort
+    node_excitation_amplitudes = {} #Dict in which key is node coordinate an value is list of percentages
+    for excitation_node, excitations in excitation_dict.items():
+        #Convert excitations into dict for easier coding
+        excitations_of_node = dict(excitations)
+        #Loop through omegas
+        amplitude_percentage_list = []
+        for multiplier in multipliers:
+            #If there is an excitation with this omega
+            if multiplier in excitations_of_node:
+                amplitude_percentage_list.append(excitations_of_node[multiplier])
+            #If not, excitation is 0
+            else:
+                amplitude_percentage_list.append(0)
+        node_excitation_amplitudes[excitation_node] = np.array(amplitude_percentage_list)
+        
     rpms = np.linspace(start=rpm_linspace["start"], stop=rpm_linspace["stop"], num=rpm_linspace["num"])
     for rpm in rpms:
-        # omegas, amplitudes = get_windmill_excitation(rpm)
-        multipliers = sorted(list(set([item[0] for sublist in excitation_dict.values() for item in sublist]))) #Get unique multipliers from exitation dict, and sort
         omegas = 2 * np.pi * np.array(multipliers) * rpm
         U = SystemExcitation(assembly.dofs, omegas)
 
-        for excitation_node, excitations in excitation_dict.items():
-            #Convert excitations into dict for easier coding
-            excitations_of_node = dict(excitations)
-            #Loop through omegas
-            amplitude_percentage_list = []
-            for multiplier in multipliers:
-                #If there is an excitation with this omega
-                if multiplier in excitations_of_node:
-                    amplitude_percentage_list.append(excitations_of_node[multiplier])
-                #If not, excitation is 0
-                else:
-                  amplitude_percentage_list.append(0)  
-            #print("AMPLITUDE_PERCENTGE_LIST", amplitude_percentage_list)
-            #print("generator_torque", generator_torque(rpm))
-            #print(omegas)
-            U.add_harmonic(excitation_node, np.array(amplitude_percentage_list) * generator_torque(rpm)) # The rpm-torque profile has to be defined by the analysis, here we are using generator_torque
+        for excitation_node, amplitude_percentage_list in node_excitation_amplitudes.items():
+            U.add_harmonic(excitation_node, amplitude_percentage_list * generator_torque(rpm)) # The rpm-torque profile has to be defined by the analysis, here we are using generator_torque
 
         X, tanphi = assembly.ss_response(M, C, K, U.excitation_amplitudes(), omegas)
 

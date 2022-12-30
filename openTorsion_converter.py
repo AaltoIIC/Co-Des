@@ -49,7 +49,7 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
     try:
         properties = expanded_doc[0][COMPONENT_PROPERTIES]
         for property in properties:
-            print(property)
+            #print(property)
             if property["@type"][0] == COMPONENT_EXCITATION:
                 node_coordinate = location + property[INCOORDINATE][0]["@value"]
                 excitations[node_coordinate] = []
@@ -69,7 +69,7 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
         else:
             print("Element type not recognized, ignoring element...")
 
-    print("EXCITATIONS", excitations)
+    #print("EXCITATIONS", excitations)
 
     return shafts, disks, excitations
 
