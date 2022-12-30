@@ -10,7 +10,7 @@ Note: Python 3.5 or higher is required
 
 Clone source code
 ```sh
-git clone https://github.com/AaltoIIC/digital-design-template.git
+git clone git@github.com/AaltoIIC/digital-design-template.git
 cd digital-design-template
 ```
 Create and activate virtual environment (recommended)
@@ -23,7 +23,7 @@ source env/bin/activate
 Windows:
 ```sh
 python -m venv env
-env/Scripts/activate
+env\Scripts\activate
 ```
 
 Install requirements
@@ -39,7 +39,39 @@ pip install -r requirements.txt
 ```
 
 ## Run
-Do some document handling, see the script for more info
+
+### Analysis server
+Open new terminal or command window and navigate to flask_server folder.
+
+Start analysis server by running:
+Linux:
 ```sh
-python3 doc-handling.py
+python3 app.py
 ```
+
+Windows:
+```sh
+python app.py
+```
+
+### Find optimal design
+Now that analysis server is running, the optimal design finder script can be executed. Go to the root folder and run:
+
+Linux:
+```sh
+python3 python find_optimal_design_threaded.py
+```
+
+Windows:
+```sh
+python find_optimal_design_threaded.py
+```
+
+## Other files
+
+measurements folder contains scripts for running performance measurements.
+utils and twindocs contain legacy code that will be removed.
+
+## Authors
+
+Riku Ala-Laurinaho with help of Juuso Autiosalo, Sampo Laine, Urho 

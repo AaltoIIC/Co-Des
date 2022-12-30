@@ -5,12 +5,8 @@ from pyld import jsonld
 import numpy as np
 import itertools
 import gc
-import time
 import threading
 import requests
-
-# For testing
-gc.disable()
 
 DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"
 #LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"] #Turbine, shaft, rotor
@@ -200,17 +196,12 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, number_of_optimal
     analyses = expanded_ddt[0][LIST_OF_ANALYSES]
 
     # Find possible components for each component position
-    start_counter_ns = time.perf_counter_ns()
     component_options_urls = [] #Two-dimensional list, in which first index (i) corresponds to component position and the list in that index contains urls of suitable documents
     for i in range(len(components)):
         component_option_url = find_suitable_components_from_list_of_urls(components[i]["@type"][0], components[i][COMPONENT_REQUIREMENTS], component_candidates)
         component_options_urls.append(component_option_url)
-    end_counter_ns = time.perf_counter_ns()
-    timer_ns = end_counter_ns - start_counter_ns
-    print("Time to search components", timer_ns/10**9)
 
     # Create very multidimensional array for looping through solutions
-    start_counter_ns = time.perf_counter_ns()
     shape = [len(suitable_components) for suitable_components in component_options_urls]
     results = [] #Initialize results array. Index is the assembly candidate and value is AnalysisResults object.
     threads = []
@@ -231,10 +222,6 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, number_of_optimal
     for t in threads:
         t.join()
 
-    end_counter_ns = time.perf_counter_ns()
-    timer_ns = end_counter_ns - start_counter_ns
-    print("Time to analyze assemblies", timer_ns/10**9)
-
     print_results(results, shape)
 
     #TODO: Allow user to define criteria for selecting best solutions
@@ -252,13 +239,8 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, number_of_optimal
 
 
 def main():
-    start_counter_ns = time.perf_counter_ns()
     find_optimal_assemblies(DTID_OF_DDT, LIST_OF_COMPONENT_CANDIDATES, number_of_optimal_solutions=1)
-    end_counter_ns = time.perf_counter_ns()
-    timer_ns = end_counter_ns - start_counter_ns
-    print("Total execution time", timer_ns/10**9)
+    
+
 if __name__ == "__main__":
     main()
-
-# For testing
-gc.enable()
