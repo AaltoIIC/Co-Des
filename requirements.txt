@@ -1,4 +1,10 @@
-dtweb
-PyLD
-pyyaml
-openTorsion
+dtweb==0.0.1
+Flask==2.2.2
+numpy==1.23.4
+openapi3_parser==1.1.6
+openapi_parser==0.2.6
+opentorsion==0.1.1
+PyLD==2.0.3
+PyYAML==6.0
+requests==2.28.1
+scipy==1.8.1
