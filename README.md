@@ -6,7 +6,7 @@ OpenTorsion examples: https://github.com/Aalto-Arotor/openTorsion/tree/main/open
 Twin documents for development are located in this Twinbase instance: https://juusoautiosalo.github.io/dev-twinbase-ddt/
 
 ## Install
-Note: Python 3.5 or higher is required
+Note: Python 3.9 or 3.10 is required
 
 Clone source code
 ```sh
@@ -69,8 +69,9 @@ python find_optimal_design_threaded.py
 
 ## Other files
 
-measurements folder contains scripts for running performance measurements.
-utils and twindocs contain legacy code that will be removed.
+`measurements` folder contains scripts for running performance measurements.
+
+`utils` and `twindocs` contain legacy code that will be removed.
 
 ## Authors
 

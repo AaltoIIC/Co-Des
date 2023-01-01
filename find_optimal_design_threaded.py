@@ -109,7 +109,6 @@ def torque_analysis(analysis, component_urls_for_assembly, analysis_results):
                     for prop in properties:
                         if ddt_data[prop.name]:
                             request_data[prop.name] = ddt_data[prop.name]
-                            print(prop.name)
                     response = requests.post(server.url + path.url, json=request_data, headers=headers)
                     max_amplitude = response.json()["max_amplitude"]
                     break
