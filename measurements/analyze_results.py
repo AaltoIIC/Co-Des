@@ -2,7 +2,7 @@ import csv
 from statistics import mean, median, stdev
 import matplotlib.pyplot as plt
 
-FILENAME = "measurements.csv"
+FILENAME = "measurements1.csv"
 
 
 #Copied from: https://github.com/juusoautiosalo/dtweb-measurements/blob/main/plotting_module.py. Originally written by Juuso Autiosalo

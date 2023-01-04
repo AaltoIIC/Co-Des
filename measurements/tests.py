@@ -1,8 +1,8 @@
 from find_optimal_design_threaded_measurements import test_func
 
 
-FILENAME = "measurements.csv"
-NUMBER_OF_MEASUREMENTS = 10
+FILENAME = "measurements1.csv"
+NUMBER_OF_MEASUREMENTS = 100
 
 
 DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"

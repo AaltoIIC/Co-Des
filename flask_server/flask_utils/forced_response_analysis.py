@@ -124,7 +124,7 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
         for excitation_node, amplitude_percentage_list in node_excitation_amplitudes.items():
             U.add_harmonic(excitation_node, amplitude_percentage_list * generator_torque(rpm)) # The rpm-torque profile has to be defined by the analysis, here we are using generator_torque
 
-        X, tanphi = assembly.ss_response(M, C, K, U.excitation_amplitudes(), omegas)
+        #X, tanphi = assembly.ss_response(M, C, K, U.excitation_amplitudes(), omegas)
 
         T_v, T_e = assembly.vibratory_torque(M, C, K, U.excitation_amplitudes(), omegas)
 
