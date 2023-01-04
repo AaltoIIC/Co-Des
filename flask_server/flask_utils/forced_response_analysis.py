@@ -18,6 +18,7 @@ from opentorsion.assembly import Assembly
 from opentorsion.excitation import SystemExcitation
 from opentorsion.plots import Plots
 from flask_utils.openTorsion_converter import return_multi_component_assembly_and_excitation_from_list_of_urls
+import time
 
 """
 Forced response analysis based on https://doi.org/10.1109/TIE.2010.2087301.
@@ -120,7 +121,7 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
     for rpm in rpms:
         omegas = 2 * np.pi * np.array(multipliers) * rpm
         U = SystemExcitation(assembly.dofs, omegas)
-
+        
         for excitation_node, amplitude_percentage_list in node_excitation_amplitudes.items():
             U.add_harmonic(excitation_node, amplitude_percentage_list * generator_torque(rpm)) # The rpm-torque profile has to be defined by the analysis, here we are using generator_torque
 
@@ -138,6 +139,8 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
     # plot_tools = Plots(assembly)
     # plot_tools.torque_response_plot(rpm_linspace, T_e, show_plot=True)
     # print(T_e)
+
+
     max_amplitude = np.max(T_e)
     # print("MAX_AMPLITUDE", max_amplitude)
 
@@ -146,8 +149,12 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
 
 
 def forced_response_analysis(component_urls_for_assembly, rpm_linspace):
+    start = time.time()
     assembly, excitation = return_multi_component_assembly_and_excitation_from_list_of_urls(component_urls_for_assembly)
+    print("Creating assembly", time.time() - start)
+    start = time.time()
     results = forced_response(assembly, excitation, rpm_linspace)
+    print("Analysis", time.time() - start)
     return results
 
 def main():
