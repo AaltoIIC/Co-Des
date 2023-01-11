@@ -138,7 +138,7 @@ def analyze_assembly(component_urls_for_assembly, analyses, results, task_queue,
         t.join()
 
     task_queue.task_done()
-    semaphore.release()  
+    semaphore.release()
 
     results.append(AnalysisResults(component_urls_for_assembly, analysis_results))
 
@@ -252,7 +252,7 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, execution_times):
     execution_times.append(timer_ns)
     print("Time to analyze assemblies", timer_ns/10**9)
 
-    results_sorted = sorted(results, key=lambda x: x.analysis_results["Analysis service for torsional vibration"], reverse=True)
+    results_sorted = sorted(results, key=lambda x: x.analysis_results["Analysis service for torsional vibration"])
     print_results(results, shape)
     print("Three best solutions")
     for result_object in results_sorted[:3]:
@@ -265,7 +265,6 @@ def test_func(dtid_of_ddt, list_of_component_candidates, filename):
     find_optimal_assemblies(dtid_of_ddt, list_of_component_candidates, execution_times)
     end_counter_ns = time.monotonic_ns()
     timer_ns = end_counter_ns - start_counter_ns
-    print(timer_ns)
     with open(filename, "a") as f:
         for value in execution_times:
             f.write(f"{value/10**9:.3f},")

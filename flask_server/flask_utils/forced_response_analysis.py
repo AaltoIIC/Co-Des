@@ -120,7 +120,11 @@ def forced_response(assembly, excitation_dict, rpm_linspace):
     rpms = np.linspace(start=rpm_linspace["start"], stop=rpm_linspace["stop"], num=rpm_linspace["num"])
     for rpm in rpms:
         omegas = 2 * np.pi * np.array(multipliers) * rpm
-        U = SystemExcitation(assembly.dofs, omegas)
+        try:
+            U = SystemExcitation(assembly.dofs, omegas)
+        except IndexError:
+            #Excitation matrix is incorrect
+            return -1
         
         for excitation_node, amplitude_percentage_list in node_excitation_amplitudes.items():
             U.add_harmonic(excitation_node, amplitude_percentage_list * generator_torque(rpm)) # The rpm-torque profile has to be defined by the analysis, here we are using generator_torque
