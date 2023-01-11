@@ -3,8 +3,8 @@ import dtweb
 from pyld import jsonld
 
 
-FILENAME = "measurements2.csv"
-NUMBER_OF_MEASUREMENTS = 10
+FILENAME = "measurementstest.csv"
+NUMBER_OF_MEASUREMENTS = 1
 
 
 
@@ -37,11 +37,15 @@ def main():
         component_candidates = list(map(lambda x: x[DTID][0]["@value"], component_candidates_raw))
     else:
        component_candidates = LIST_OF_COMPONENT_CANDIDATES
-
-    component_candidates = component_candidates[:55]
-    #component_candidates.extend(["https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d"])
-    #print(component_candidates)
-    print(len(component_candidates))
+    
+    # component_candidates_mid = component_candidates[40:]
+    # component_candidates_mid.append(component_candidates[0])
+    # component_candidates_mid.append(component_candidates[20])
+    # component_candidates = component_candidates_mid
+    
+    print("Component candidates")
+    print(component_candidates)
+    print("----------------------")
     with open(FILENAME, "w") as f:
         f.write("ReadDDT,FindSuitableComponents,AnalyzingAssemblies,TotalTime\n")
     for _ in range(NUMBER_OF_MEASUREMENTS):

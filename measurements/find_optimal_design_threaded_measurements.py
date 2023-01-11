@@ -8,6 +8,7 @@ import time
 import threading
 import requests
 from queue import Queue
+import traceback
 
 # For testing
 gc.disable()
@@ -42,6 +43,9 @@ EQUAL = "https://ddt.twinschema.org/Equal"
 GREATER_THAN_OR_EQUAL = "https://ddt.twinschema.org/GreaterThanOrEqual"
 GREATER_THAN = "https://ddt.twinschema.org/GreaterThan"
 SUITABLE_SERVICES = "https://ddt.twinschema.org/suitableAnalysisServices"
+MUST_BE_DEFINED = "https://ddt.twinschema.org/MustBeDefined"
+MUST_BE_DEFINED_SMALL = "https://ddt.twinschema.org/mustBeDefined"
+PROPERTIES = "https://tors.twinschema.org/properties"
 
 #tors:
 LINSPACE_START = "https://tors.twinschema.org/startLinspace"
@@ -151,34 +155,51 @@ def check_requirements(component_type, requirements, component_dtid, suitable_co
         accept_component = True
         for requirement in requirements:
             try:
-                key = list(requirement[REQUIREMENT_VALUE][0].keys())[0] #Extract key
-                required_value = requirement[REQUIREMENT_VALUE][0][key][0]["@value"]#Extract value
                 condition = requirement["@type"][0] #Extract condition
-                try:
-                    component_value = component_expanded_doc[0][key][0]["@value"]
-                    #print("Required_value: ", required_value)
-                    #print("Component_value: ", component_value)
-                    if condition == LOWER_THAN:
-                        if not component_value < required_value:
+                if condition in [LOWER_THAN, LOWER_THAN_OR_EQUAL, EQUAL, GREATER_THAN_OR_EQUAL, GREATER_THAN]:
+                    key = list(requirement[REQUIREMENT_VALUE][0].keys())[0] #Extract key
+                    required_value = requirement[REQUIREMENT_VALUE][0][key][0]["@value"]#Extract value
+                    
+                    try:
+                        component_value = component_expanded_doc[0][key][0]["@value"]
+                        if condition == LOWER_THAN:
+                            if not component_value < required_value:
+                                accept_component = False
+                                break
+                        elif condition == LOWER_THAN_OR_EQUAL:
+                            if not component_value <= required_value:
+                                accept_component = False
+                                break
+                        elif condition == EQUAL:
+                            if not component_value == required_value:
+                                accept_component = False
+                                break
+                        elif condition == GREATER_THAN_OR_EQUAL:
+                            if not component_value >= required_value:
+                                accept_component = False
+                                break
+                        elif condition == GREATER_THAN:
+                            if not component_value > required_value:
+                                accept_component = False
+                                break
+                        else:
+                            #Unknown condition
                             accept_component = False
-                    elif condition == LOWER_THAN_OR_EQUAL:
-                        if not component_value <= required_value:
-                            accept_component = False
-                    elif condition == EQUAL:
-                        if not component_value == required_value:
-                            accept_component = False
-                    elif condition == GREATER_THAN_OR_EQUAL:
-                        if not component_value >= required_value:
-                            accept_component = False
-                    elif condition == GREATER_THAN:
-                        if not component_value > required_value:
-                            accept_component = False
-                    else:
-                        #Unknown condition
-                        accept_component = False                        
-                except:
-                    #Key not find
-                    pass
+                            break                       
+                    except:
+                        #Key not find
+                        pass
+                elif condition == MUST_BE_DEFINED:
+                    accept_component = False
+                    property_to_be_defined = requirement[MUST_BE_DEFINED_SMALL][0]["@type"][0]
+                    try:
+                        for property in component_expanded_doc[0][PROPERTIES]:
+                            if property["@type"][0] == property_to_be_defined:
+                                accept_component = True
+                    except Exception:
+                        accept_component = False
+                        break
+                        
             except:
                 #TODO: accept also other requirements than numeric values. Example: MustBeDefined
                 pass
@@ -196,7 +217,7 @@ def find_suitable_components_from_list_of_urls(component_type, requirements, lis
         t.start()
     for t in threads:
         t.join()
-    return suitable_component_urls    
+    return suitable_component_urls
 
 def find_optimal_assemblies(dtid_of_DDT, component_candidates, execution_times):
     # Read DDT and find components
