@@ -3,8 +3,8 @@ import dtweb
 from pyld import jsonld
 
 
-FILENAME = "measurementstest.csv"
-NUMBER_OF_MEASUREMENTS = 1
+FILENAME = "measurementstest_long_5.csv"
+NUMBER_OF_MEASUREMENTS = 22
 
 
 
@@ -38,10 +38,10 @@ def main():
     else:
        component_candidates = LIST_OF_COMPONENT_CANDIDATES
     
-    # component_candidates_mid = component_candidates[40:]
-    # component_candidates_mid.append(component_candidates[0])
-    # component_candidates_mid.append(component_candidates[20])
-    # component_candidates = component_candidates_mid
+    #component_candidates_mid = component_candidates[::3]
+    #component_candidates_mid.append(component_candidates[0])
+    #component_candidates_mid.append(component_candidates[20])
+    #component_candidates = component_candidates_mid
     
     print("Component candidates")
     print(component_candidates)
