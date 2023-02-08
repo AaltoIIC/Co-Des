@@ -26,7 +26,8 @@ EXCITATION = "https://tors.twinschema.org/Excitation"
 ASSEMBLY = "https://ddt.twinschema.org/assembly"
 DTID = "https://twinschema.org/dt-id"
 COMPONENT_POSITION = "https://ddt.twinschema.org/position"
-COMPONENT_PROPERTIES = "https://ddt.twinschema.org/properties"
+#COMPONENT_PROPERTIES = "https://ddt.twinschema.org/properties"
+COMPONENT_PROPERTIES = "https://tors.twinschema.org/properties"
 COMPONENT_EXCITATION = "https://tors.twinschema.org/Excitation"
 COMPONENT_EXCITATION_RPM = "https://tors.twinschema.org/excitationValuesRpmPercentage"
 
@@ -49,7 +50,7 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
     try:
         properties = expanded_doc[0][COMPONENT_PROPERTIES]
         for property in properties:
-            print(property)
+            #print(property)
             if property["@type"][0] == COMPONENT_EXCITATION:
                 node_coordinate = location + property[INCOORDINATE][0]["@value"]
                 excitations[node_coordinate] = []
@@ -57,7 +58,8 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
                 for i in range(0, len(component_excitations), 2):
                     excitations[node_coordinate].append((component_excitations[i]["@value"], component_excitations[i + 1]["@value"]))
     except:
-        print("no properties")
+        pass
+        #print("no properties")
 
     shafts, disks = [], []
     elements =  expanded_doc[0][ELEMENTS]
@@ -67,16 +69,17 @@ def translate_to_open_torsion_model(expanded_doc, location=0): #location is adde
         elif element["@type"] == [SHAFTDISCRETE]:
             shafts.append(create_shaft_discrete(element, location=location))
         else:
-            print("Element type not recognized, ignoring element...")
+            pass
+            #print("Element type not recognized, ignoring element...")
 
-    print("EXCITATIONS", excitations)
+    #print("EXCITATIONS", excitations)
 
     return shafts, disks, excitations
 
 
 def create_disk(element, location=0):
     disk = Disk(int(element[INCOORDINATE][0]['@value']) + location, float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value']) #Disk(node, inertia, c=0) 
-    print("Disk: ", int(element[INCOORDINATE][0]['@value']) + location, float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value'])
+    #print("Disk: ", int(element[INCOORDINATE][0]['@value']) + location, float(element[INERTIA][0]['@value']), element[DAMPING][0]['@value'])
     #print(disk)
     return disk
 
@@ -97,7 +100,7 @@ def create_shaft_discrete(element, location=0):
     try:
         stiffness = float(element[STIFFNESS][0]['@value'])
         shaft = Shaft(int(element[INCOORDINATE][0]['@value'])  + location, int(element[OUTCOORDINATE][0]['@value'])  + location, None, None, k=stiffness, I=inertia, c=damping) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
-        print("Shaft with stiffness", int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value'])  + location, None, None, stiffness, inertia, damping)
+        #print("Shaft with stiffness", int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value'])  + location, None, None, stiffness, inertia, damping)
     except:
         #Stiffness does not exist. Using outer diameter, length, and optionally inner diameter for shaft calculations
         outer_diameter = element[OUTER_DIAMETER][0]['@value']
@@ -108,11 +111,12 @@ def create_shaft_discrete(element, location=0):
             #Inner diameter is not defined
             inner_diameter = None
         shaft = Shaft(int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value']) + location, length, outer_diameter, idl=inner_diameter, I=inertia, c=damping) #inCoordinate, outCoordinate, L, odl, idl=0, G=80e9, E=200e9, rho=8000, k=None, I=0.0, c=0.0
-        print("Shaft with diameter", int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value'])  + location, length, outer_diameter, inner_diameter, inertia, damping)
+        #print("Shaft with diameter", int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value'])  + location, length, outer_diameter, inner_diameter, inertia, damping)
     return shaft
 
 def analysis(assembly):
-    print("Some basic analysis could be defined here")
+    pass
+    #print("Some basic analysis could be defined here")
 
 #Read doc from twinbase and expand it
 def read_and_expand(dtid):

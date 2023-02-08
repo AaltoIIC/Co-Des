@@ -3,7 +3,7 @@ import dtweb
 from pyld import jsonld
 
 
-FILENAME = "measurementstest.csv"
+FILENAME = "measurementstest_newdfsddfdfs11.csv"
 NUMBER_OF_MEASUREMENTS = 1
 
 
@@ -38,10 +38,11 @@ def main():
     else:
        component_candidates = LIST_OF_COMPONENT_CANDIDATES
     
-    # component_candidates_mid = component_candidates[40:]
+    # component_candidates_mid = component_candidates[::3]
     # component_candidates_mid.append(component_candidates[0])
     # component_candidates_mid.append(component_candidates[20])
     # component_candidates = component_candidates_mid
+    
     print("Component candidates")
     print(component_candidates)
     print("----------------------")
@@ -52,6 +53,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-{'@type': ['https://ddt.twinschema.org/Component', 'https://tors.twinschema.org/Rotor'], 'https://twinschema.org/baseurl': [{'@value': 'https://juusoautiosalo.github.io/dev-twinbase-ddt'}], 'https://twinschema.org/description': [{'@value': 'A rotor component for a windmill to be used to construct a torsional vibration analysis via a digital design template.'}], 'https://twinschema.org/dt-id': [{'@value': 'https://dtid.org/c8060ee0-8abe-4a25-a3b3-7f90ea55d616'}], 'https://twinschema.org/edit': [{'@value': 'https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/c8060ee0-8abe-4a25-a3b3-7f90ea55d616/index.yaml'}], 'https://twinschema.org/edit-json': [{'@value': 'https://github.com/juusoautiosalo/dev-twinbase-ddt/edit/main/docs/c8060ee0-8abe-4a25-a3b3-7f90ea55d616/index.json'}], 'https://twinschema.org/hosting-iri': [{'@value': 'https://juusoautiosalo.github.io/dev-twinbase-ddt/c8060ee0-8abe-4a25-a3b3-7f90ea55d616'}], 'https://twinschema.org/name': [{'@value': 'Windmill rotor 400000 exc 4.71e+03'}], 'https://tors.twinschema.org/elements': [{'@type': ['https://tors.twinschema.org/Disk'], 'http://www.w3.org/2000/01/rdf-schema#comment': [{'@language': 'en', '@value': 'Rotor inner part'}], 'https://tors.twinschema.org/damping': [{'@value': 1}], 'https://tors.twinschema.org/inCoordinate': [{'@value': 0}], 'https://tors.twinschema.org/inertia': [{'@value': '4.71e+03'}]}, {'@type': ['https://tors.twinschema.org/ShaftDiscrete'], 'http://www.w3.org/2000/01/rdf-schema#comment': [{'@language': 'en', '@value': 'Spring that connects inner and outer parts of rotor'}], 'https://tors.twinschema.org/damping': [{'@value': 0}], 'https://tors.twinschema.org/inCoordinate': [{'@value': 0}], 'https://tors.twinschema.org/outCoordinate': [{'@value': 1}], 'https://tors.twinschema.org/stiffness': [{'@value': '5.64e+09'}]}, {'@type': ['https://tors.twinschema.org/Disk'], 'http://www.w3.org/2000/01/rdf-schema#comment': [{'@language': 'en', '@value': 'Rotor outer part'}], 'https://tors.twinschema.org/damping': [{'@value': 0}], 'https://tors.twinschema.org/inCoordinate': [{'@value': 1}], 'https://tors.twinschema.org/inertia': [{'@value': '7.52e+04'}]}], 'https://tors.twinschema.org/power': [{'@value': 400000}], 'https://tors.twinschema.org/properties': [{'@type': ['https://tors.twinschema.org/Excitation'], 'http://www.w3.org/2000/01/rdf-schema#comment': [{'@language': 'en', '@value': 'Definition of excitations caused by this component. The excitation values are defined in tors:excitationValuesRpmPercentage as list of two-item lists that contain 1) the RPM multiple and 2) the value of excitation in percentages.'}], 'https://tors.twinschema.org/excitationValuesRpmPercentage': [{'@value': 4}, {'@value': 0.002068}, {'@value': 6}, {'@value': 0.0189}, {'@value': 8}, {'@value': 0.00174}, {'@value': 10}, {'@value': 0.004166}, {'@value': 12}, {'@value': 0.01605}, {'@value': 14}, {'@value': 0.002008}, {'@value': 16}, {'@value': 0.0008396}], 'https://tors.twinschema.org/inCoordinate': [{'@value': 1}]}]}

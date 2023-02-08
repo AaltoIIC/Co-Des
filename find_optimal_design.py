@@ -13,7 +13,7 @@ CATALOGUES = ["https://dtid.org/2d94ede9-eb21-4972-a142-141611ea922e"]
 
 #For testing
 REPLACE_CATALOGUE_WITH_LIST_OF_DTIDS = True #If true use the list of DTIDs below instead of catalogues
-LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"] #Turbine, shaft, rotor
+LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/19707b48-028a-49ef-abc1-778e68b6010f"] #Turbine, shaft, rotor
 
 #twinschema
 DTID = "https://twinschema.org/dt-id"

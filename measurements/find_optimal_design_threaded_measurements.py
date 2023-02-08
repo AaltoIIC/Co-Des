@@ -14,7 +14,7 @@ import traceback
 gc.disable()
 
 
-MAX_CONNECTIONS = 24
+MAX_CONNECTIONS = 20
 DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"
 #LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"] #Turbine, shaft, rotor
 LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d", "https://dtid.org/6ae3e218-2152-4635-a61a-696c6e0584e6", "https://dtid.org/977bf820-fc6a-49c8-8002-388f7beb1148"]
@@ -75,6 +75,12 @@ def print_results(results_array, shape):
         index = np.ravel_multi_index(idx, shape)
         print(idx, index, results_array[index])
 
+def save_results(results_array, shape):
+    with open('results.txt', 'w') as f:
+        for idx in itertools.product(*[range(s) for s in shape]):
+            index = np.ravel_multi_index(idx, shape)
+            f.write(";".join([idx, index, results_array[index], results_array[index].analysis_results["Analysis service for torsional vibration"]]))
+
 def torque_analysis(analysis, component_urls_for_assembly, analysis_results):
         #print('\nFound torque analysis!\n')
         #Select first analysis service
@@ -120,7 +126,7 @@ def torque_analysis(analysis, component_urls_for_assembly, analysis_results):
                         if ddt_data[prop.name]:
                             request_data[prop.name] = ddt_data[prop.name]
                     response = requests.post(server.url + path.url, json=request_data, headers=headers)
-                    max_amplitude = #response.json()["max_amplitude"]
+                    max_amplitude = response.json()["max_amplitude"]
                     break
         name = expanded_service_ddt[0][NAME][0]["@value"]
         analysis_results[name] = max_amplitude
@@ -142,7 +148,7 @@ def analyze_assembly(component_urls_for_assembly, analyses, results, task_queue,
         t.join()
 
     task_queue.task_done()
-    semaphore.release()  
+    semaphore.release()
 
     results.append(AnalysisResults(component_urls_for_assembly, analysis_results))
 
@@ -273,8 +279,9 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, execution_times):
     execution_times.append(timer_ns)
     print("Time to analyze assemblies", timer_ns/10**9)
 
-    results_sorted = sorted(results, key=lambda x: x.analysis_results["Analysis service for torsional vibration"], reverse=False)
+    results_sorted = sorted(results, key=lambda x: x.analysis_results["Analysis service for torsional vibration"])
     print_results(results, shape)
+    save_results(results, shape)
     print("Three best solutions")
     for result_object in results_sorted[:3]:
         print(result_object)
@@ -286,7 +293,6 @@ def test_func(dtid_of_ddt, list_of_component_candidates, filename):
     find_optimal_assemblies(dtid_of_ddt, list_of_component_candidates, execution_times)
     end_counter_ns = time.monotonic_ns()
     timer_ns = end_counter_ns - start_counter_ns
-    print(timer_ns/10**9)
     with open(filename, "a") as f:
         for value in execution_times:
             f.write(f"{value/10**9:.3f},")
