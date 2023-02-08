@@ -79,7 +79,8 @@ def save_results(results_array, shape):
     with open('results.txt', 'w') as f:
         for idx in itertools.product(*[range(s) for s in shape]):
             index = np.ravel_multi_index(idx, shape)
-            f.write(";".join([idx, index, results_array[index], results_array[index].analysis_results["Analysis service for torsional vibration"]]))
+            print([idx, index, results_array[index], results_array[index].analysis_results["Analysis service for torsional vibration"]])
+            f.write(";".join([str(item) for item in [idx, index, results_array[index].component_urls, results_array[index].analysis_results["Analysis service for torsional vibration"]]]) + "\n")
 
 def torque_analysis(analysis, component_urls_for_assembly, analysis_results):
         #print('\nFound torque analysis!\n')
@@ -280,7 +281,7 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, execution_times):
     print("Time to analyze assemblies", timer_ns/10**9)
 
     results_sorted = sorted(results, key=lambda x: x.analysis_results["Analysis service for torsional vibration"])
-    print_results(results, shape)
+    #print_results(results, shape)
     save_results(results, shape)
     print("Three best solutions")
     for result_object in results_sorted[:3]:

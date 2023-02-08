@@ -38,7 +38,7 @@ def main():
     else:
        component_candidates = LIST_OF_COMPONENT_CANDIDATES
     
-    # component_candidates_mid = component_candidates[::3]
+    # component_candidates_mid = component_candidates[::5]
     # component_candidates_mid.append(component_candidates[0])
     # component_candidates_mid.append(component_candidates[20])
     # component_candidates = component_candidates_mid
