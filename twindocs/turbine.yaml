@@ -1,6 +1,0 @@
-# This is a DRAFT document!
-dt-id: 123
-type: Turbine
-parameters:
-  k1: 3.67e8  # Turbine shaft stiffness
-  J1: 1e7  # Turbine inertia

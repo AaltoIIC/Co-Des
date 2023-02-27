@@ -1,9 +1,11 @@
-# Digital Design Template
-Developing Digital Design Template, starting with the openTorsion PoC.
+# Co-Des framework
+This repository includes scripts that implement the proof of concept of Co-Des frmaework.
+
+The PoC uses openTorsion library to implement analysis service.
 
 OpenTorsion examples: https://github.com/Aalto-Arotor/openTorsion/tree/main/opentorsion/examples
 
-Twin documents for development are located in this Twinbase instance: https://juusoautiosalo.github.io/dev-twinbase-ddt/
+Digital Twin Documents for development are located in this Twinbase instance: https://juusoautiosalo.github.io/dev-twinbase-ddt/
 
 ## Install
 Note: Python 3.9 or 3.10 is required
@@ -71,8 +73,6 @@ python find_optimal_design_threaded.py
 
 `measurements` folder contains scripts for running performance measurements.
 
-`utils` and `twindocs` contain legacy code that will be removed.
-
 ## Authors
 
-Riku Ala-Laurinaho with help of Juuso Autiosalo, Sampo Laine, Urho 
+Riku Ala-Laurinaho, Juuso Autiosalo, Sampo Laine, Urho Hakonen, and Raine Viitala.
