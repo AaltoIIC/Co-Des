@@ -3,6 +3,11 @@ from statistics import mean, median, stdev
 import matplotlib.pyplot as plt
 
 FILENAME = "measurements_combined.csv"
+FILENAME_RESULTS = "results.txt"
+
+def read_results(filename):
+    with open(filename, newline='') as csvfile:
+        return list(csv.reader(csvfile, delimiter=';'))
 
 def calc_MAS(values):
     mean_values = mean(values)
@@ -109,9 +114,25 @@ def plot_network_fetch_times(data):
     figurename = 'execution_times' + '.pdf'
     fig.savefig(figurename)
 
+def plot_results(results):
+    divider = 1000 #Scale results to kN
+    results_torsional_vibration = list(map(lambda x: float(x[-1])/divider, results)) #Change to float 
+    results_torsional_vibration.sort()
+    fig, ax = plt.subplots()
+    plt.axline((0, 50000/divider), (1000, 50000/divider), color="red", linestyle="--")#50 kNm limit
+    plt.plot(results_torsional_vibration, marker=".", markersize=2, linestyle="none")
+    plt.text(-25,51, "Vibration limit", fontsize=10) #, bbox=dict(boxstyle="square", ec=(1, 1, 1), fc=(1, 1, 1),))
+    ax.set_title("Torsional vibration analysis")
+    ax.set_ylabel("Torsional vibration [kNm]")
+    ax.set_xlabel("Index")
+    plt.show()
 
-def main():
-    with open(FILENAME, "r") as f:
+    figurename = 'results' + '.pdf'
+    fig.savefig(figurename)
+
+
+def read_execution_times(filename):
+    with open(filename, "r") as f:
         reader = csv.DictReader(f)
         data = {}
         for row in reader:
@@ -120,7 +141,16 @@ def main():
                     data[header].append(float(value))
                 except KeyError:
                     data[header] = [float(value)]
+    return data
 
+def print_results(results):
+    results_torsional_vibration = sorted(results, key=lambda x: float(x[-1])) #Change to float
+    print("LEN", len(results_torsional_vibration))
+    for result in results_torsional_vibration:
+        print(result)
+
+
+def print_network_fetch_times(data):
     print()
     print("|Value    |" + "|".join([f"{key:^22s}" for key in data.keys()]) + "|")
     print("-------------------------------------------------------------------------------------------------------")
@@ -132,8 +162,14 @@ def main():
     print("|MAE      |" + "|".join([f"{calc_MAS(values):>22f}" for values in data.values()]) + "|")
     print()
 
-    plot_network_fetch_times(data)
-    #plot_data(data)
+def main():
+    #execution_times = read_execution_times(FILENAME)
+    results = read_results(FILENAME_RESULTS)
+    plot_results(results)
+    #print_results(results)
+    #print_network_fetch_times(execution_times)
+    #plot_network_fetch_times(execution_times)
+    
 
 if __name__ == "__main__":
     main()
