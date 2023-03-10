@@ -75,4 +75,4 @@ python find_optimal_design_threaded.py
 
 ## Authors
 
-Hidden
+Riku Ala-Laurinaho, Juuso Autiosalo, Sampo Laine, Urho Hakonen, and Raine Viitala.
