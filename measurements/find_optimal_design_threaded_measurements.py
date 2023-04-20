@@ -31,7 +31,6 @@ NAME = "https://twinschema.org/name"
 #ddt
 ASSEMBLY_TEMPLATE = "https://ddt.twinschema.org/assemblyTemplate"
 LIST_OF_ANALYSES = "https://ddt.twinschema.org/analysisRuns"
-COMPONENTS = "https://ddt.twinschema.org/components"
 COMPONENT_POSITION = "https://ddt.twinschema.org/position"
 COMPONENT_REQUIREMENTS = "https://ddt.twinschema.org/requirements"
 COMPONENT_REQUIREMENT_TYPE = "https://ddt.twinschema.org/requirementType"
