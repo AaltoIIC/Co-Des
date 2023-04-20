@@ -95,7 +95,7 @@ def plot_network_fetch_times(data):
     ax2.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)  # bottom-right diagonal
 
     # Set texts to figure
-    ax1.set_title('Finding optimal design execution times')
+    #ax1.set_title('Finding optimal design execution times')
     #axes.yaxis.grid(True)
     #ax2.set_xlabel('Phase')
     fig.text(0.015, 0.6, 'Execution time (s)', ha='center', va='center', rotation='vertical')
@@ -121,9 +121,9 @@ def plot_results(results):
     fig, ax = plt.subplots()
     plt.axline((0, 50000/divider), (1000, 50000/divider), color="red", linestyle="--")#50 kNm limit
     plt.plot(results_torsional_vibration, marker=".", markersize=2, linestyle="none")
-    plt.text(-25,51, "Vibration limit", fontsize=10) #, bbox=dict(boxstyle="square", ec=(1, 1, 1), fc=(1, 1, 1),))
-    ax.set_title("Torsional vibration analysis")
-    ax.set_ylabel("Torsional vibration [kNm]")
+    plt.text(-25,51, "Vibration torque limit", fontsize=10) #, bbox=dict(boxstyle="square", ec=(1, 1, 1), fc=(1, 1, 1),))
+    #ax.set_title("Torsional vibration analysis")
+    ax.set_ylabel("Torsional vibration amplitude [kNm]")
     ax.set_xlabel("Index")
     plt.show()
 
@@ -163,12 +163,12 @@ def print_network_fetch_times(data):
     print()
 
 def main():
-    #execution_times = read_execution_times(FILENAME)
+    execution_times = read_execution_times(FILENAME)
     results = read_results(FILENAME_RESULTS)
     plot_results(results)
-    #print_results(results)
-    #print_network_fetch_times(execution_times)
-    #plot_network_fetch_times(execution_times)
+    print_results(results)
+    print_network_fetch_times(execution_times)
+    plot_network_fetch_times(execution_times)
     
 
 if __name__ == "__main__":
