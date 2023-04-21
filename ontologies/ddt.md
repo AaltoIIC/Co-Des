@@ -16,9 +16,9 @@ For example, in case of Assembly template: https://ddt.twinschema.org/ + assembl
 | Component position | position | Component position index in Assembly Template. |
 | Component requirements | requirements | List of requirements, for example, to component. |
 | Requirement value | requirementValue | Numerical value for a requirement. |
-| Lower than | LowerThan | Lower than comparison operator applied for Requirement value. |
-| Lower than or equal | LowerThanOrEqual | Lower than or equal comparison operator applied for Requirement value. |
-| Equal | Equal | Equal comparison operator applied for Requirement value. |
+| Lower than | LowerThan | Lower than comparison operator used for Requirement value. |
+| Lower than or equal | LowerThanOrEqual | Lower than or equal comparison operator used for Requirement value. |
+| Equal | Equal | Equal comparison operator used for Requirement value. |
 | Greater than or equal | GreaterThanOrEqual | Greater than or equal comparison operator used for Requirement value. |
 | Greater than | GreaterThan | Greater comparison operator used for Requirement value. |
 | Must be defined | MustBeDefined | This information has to defined, for example, for component. |
