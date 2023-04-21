@@ -31,10 +31,9 @@ NAME = "https://twinschema.org/name"
 #ddt
 ASSEMBLY_TEMPLATE = "https://ddt.twinschema.org/assemblyTemplate"
 LIST_OF_ANALYSES = "https://ddt.twinschema.org/analysisRuns"
+ANALYSIS_PARAMETERS = "https://ddt.twinschema.org/analysisParameters"
 COMPONENT_POSITION = "https://ddt.twinschema.org/position"
 COMPONENT_REQUIREMENTS = "https://ddt.twinschema.org/requirements"
-COMPONENT_REQUIREMENT_TYPE = "https://ddt.twinschema.org/requirementType"
-COMPONENT_TYPE = "https://ddt.twinschema.org/componentType"
 REQUIREMENT_VALUE = "https://ddt.twinschema.org/requirementValue"
 LOWER_THAN = "https://ddt.twinschema.org/LowerThan"
 LOWER_THAN_OR_EQUAL = "https://ddt.twinschema.org/LowerThanOrEqual"
@@ -44,15 +43,14 @@ GREATER_THAN = "https://ddt.twinschema.org/GreaterThan"
 SUITABLE_SERVICES = "https://ddt.twinschema.org/suitableAnalysisServices"
 MUST_BE_DEFINED = "https://ddt.twinschema.org/MustBeDefined"
 MUST_BE_DEFINED_SMALL = "https://ddt.twinschema.org/mustBeDefined"
-PROPERTIES = "https://tors.twinschema.org/properties"
 
 #tors:
 LINSPACE_START = "https://tors.twinschema.org/startLinspace"
 LINSPACE_STOP = "https://tors.twinschema.org/stopLinspace"
 LINSPACE_NUM = "https://tors.twinschema.org/numLinspace"
-ANALYSIS_PARAMETERS = "https://ddt.twinschema.org/analysisParameters"
 TORQUE_ANALYSIS = "https://tors.twinschema.org/TorqueAmplitudeAnalysis"
 RPM_LINSPACE_PARAMS = "https://tors.twinschema.org/rpmLinspace"
+PROPERTIES = "https://tors.twinschema.org/properties"
 
 class AnalysisResults:
     def __init__(self, component_urls, analysis_results): #List of component urls forming assembly, dict of analysis results. Key = analysis name, value = analysis result

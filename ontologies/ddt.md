@@ -12,8 +12,15 @@ For example, in case of Assemblt template: https://ddt.twinschema.org/ + assembl
 | ------------- | ------------- | ------------- |
 | Assembly template | assemblyTemplate | Template for components that construct system. |
 | Analyses to be run | analysisRuns | List of analyses to be run for the system. |
+| Parameters for analysis | analysisParameters | List parameters used for an analysis. |
 | Component position | position | Component position index in Assembly Template. |
-| Component requirements | requirements | |
-| URL for API definition | apiDocumentUrl | URL(s) for the API definition document(s) that can be in different formats, such as YAML or JSON. |
-| JSON format | json | URL for document that is in JSON format. |
-| YAML format | yaml | URL for document that is in YAML format. |
+| Component requirements | requirements | List of requirements, for example, to component. |
+| Requirement value | requirementValue | Numerical value for a requirement. |
+| Lower than | LowerThan | Lower than comparison operator applied for Requirement value. |
+| Lower than or equal | LowerThanOrEqual | Lower than or equal comparison operator applied for Requirement value. |
+| Equal | Equal | Equal comparison operator applied for Requirement value. |
+| Greater than or equal | GreaterThanOrEqual | Greater than or equal comparison operator used for Requirement value. |
+| Greater than | GreaterThan | Greater comparison operator used for Requirement value. |
+| Must be defined | MustBeDefined | This information has to defined, for example, for component. |
+| Must be defined object | mustBeDefined | Object that describes what information should be defined. |
+| Must include property | mustIncludeProperty | Must be defined object must include this property. |

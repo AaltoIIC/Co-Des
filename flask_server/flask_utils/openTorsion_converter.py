@@ -20,16 +20,14 @@ STIFFNESS = "https://tors.twinschema.org/stiffness"
 LENGTH = "https://tors.twinschema.org/length" #TODO: update
 OUTER_DIAMETER = "https://tors.twinschema.org/outerDiameter" #TODO: update
 INNER_DIAMETER = "https://tors.twinschema.org/innerDiameter" #TODO: update
-EXCITATION = "https://tors.twinschema.org/Excitation"
+COMPONENT_PROPERTIES = "https://tors.twinschema.org/properties"
+COMPONENT_EXCITATION = "https://tors.twinschema.org/Excitation"
+COMPONENT_EXCITATION_RPM = "https://tors.twinschema.org/excitationValuesRpmPercentage"
 
 #DDT
 ASSEMBLY = "https://ddt.twinschema.org/assembly"
 DTID = "https://twinschema.org/dt-id"
 COMPONENT_POSITION = "https://ddt.twinschema.org/position"
-#COMPONENT_PROPERTIES = "https://ddt.twinschema.org/properties"
-COMPONENT_PROPERTIES = "https://tors.twinschema.org/properties"
-COMPONENT_EXCITATION = "https://tors.twinschema.org/Excitation"
-COMPONENT_EXCITATION_RPM = "https://tors.twinschema.org/excitationValuesRpmPercentage"
 
 
 
@@ -103,10 +101,10 @@ def create_shaft_discrete(element, location=0):
         #print("Shaft with stiffness", int(element[INCOORDINATE][0]['@value']) + location, int(element[OUTCOORDINATE][0]['@value'])  + location, None, None, stiffness, inertia, damping)
     except:
         #Stiffness does not exist. Using outer diameter, length, and optionally inner diameter for shaft calculations
-        outer_diameter = element[OUTER_DIAMETER][0]['@value']
-        length = element[LENGTH][0]['@value']
+        outer_diameter = float(element[OUTER_DIAMETER][0]['@value'])
+        length = float(element[LENGTH][0]['@value']) * 1000 #Change to mm
         try:
-            inner_diameter = element[INNER_DIAMETER][0]['@value']
+            inner_diameter = float(element[INNER_DIAMETER][0]['@value'])
         except:
             #Inner diameter is not defined
             inner_diameter = None
