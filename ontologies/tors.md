@@ -12,7 +12,7 @@ For example, in case of a Disk: https://tors.twinschema.org + Disk = https://tor
 | ------------- | ------------- | ------------- |
 | Elements | elements | List of elements the component consists of. For example, disks and shafts. |
 | Disk | Disk | Disk element. |
-| Shaft | Shaft | Shaft element. |
+| Discrete Shaft | ShaftDiscrete | Discrete shaft element. |
 | Damping | damping | Viscous damping coefficient of the disk. [Nms/rad] |
 | Inertia | inertia | Moment of inertia of the disk. [kgm^2] |
 | In coordinate | inCoordinate | The input coordinate of the element. |
