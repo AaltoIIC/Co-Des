@@ -1,6 +1,6 @@
 ## DDT definitions
 
-Digital Design Template ontology
+Digital Design Template ontology.
 
 Base URL: https://ddt.twinschema.org/
 

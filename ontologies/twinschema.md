@@ -1,4 +1,6 @@
-## twinschema definitions
+## Twinschema definitions
+
+Twinschema ontology for describing digital twins.
 
 Base URL: https://twinschema.org/
 
