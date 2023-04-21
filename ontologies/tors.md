@@ -6,7 +6,7 @@ Base URL: https://tors.twinschema.org
 
 URL for the term is formed by combining base URL and term path.
 
-For example, in case of a Disk: https://tors.twinschema.org + Disk = https://ddt.twinschema.org/Disk
+For example, in case of a Disk: https://tors.twinschema.org + Disk = https://tors.twinschema.org/Disk
 
 | Term | Term path| Description |
 | ------------- | ------------- | ------------- |
