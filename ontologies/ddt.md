@@ -6,7 +6,7 @@ Base URL: https://ddt.twinschema.org/
 
 URL for the term is formed by combining base URL and term path.
 
-For example, in case of Assemblt template: https://ddt.twinschema.org/ + assemblyTemplate = https://ddt.twinschema.org/assemblyTemplate
+For example, in case of Assembly template: https://ddt.twinschema.org/ + assemblyTemplate = https://ddt.twinschema.org/assemblyTemplate
 
 | Term | Term path| Description |
 | ------------- | ------------- | ------------- |
