@@ -1,4 +1,4 @@
-## DDT definitions
+## ddt definitions
 
 Digital Design Template ontology.
 

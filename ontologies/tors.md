@@ -1,6 +1,6 @@
-## TORS definitions
+## tors definitions
 
-TORS ontology for torsional vibration.
+tors ontology for torsional vibration.
 
 Base URL: https://tors.twinschema.org
 
