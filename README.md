@@ -1,5 +1,5 @@
 # Co-Des framework
-This repository includes scripts that implement the proof of concept of Co-Des frmaework.
+This repository includes scripts that implement the proof of concept of Co-Des framework.
 
 The PoC uses openTorsion library to implement analysis service.
 
