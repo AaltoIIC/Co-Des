@@ -3,7 +3,7 @@ import dtweb
 from pyld import jsonld
 
 
-FILENAME = "measurementstest_newdfsddfdfs11.csv"
+FILENAME = "measurements_test.csv"
 NUMBER_OF_MEASUREMENTS = 1
 
 

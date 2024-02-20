@@ -9,7 +9,7 @@ Digital Twin Documents for development are located in this Twinbase instance: ht
 
 ## Repository structure
 
-The repository structure is presented as a tree below. Next the structure is presented in more detail
+The repository structure is presented as a tree below. Next the structure is presented in more detail.
 
 ```sh
 ├── flask_server
@@ -40,7 +40,7 @@ The repository structure is presented as a tree below. Next the structure is pre
 ### **/flask_server**
 This folder contains files necessary to run an example analysis server. This server implements a torsional vibration analysis of a given assembly using openTorsion library.
 
-**/flask_server/app.py**
+#### **/flask_server/app.py**
 App.py is part of default Flask file structure and defines the application. Run this file to run the server:
 ```sh
 python3 app.py
@@ -70,19 +70,25 @@ This folder contains all the files necessary to run performance measurements.
 
 **/measurements/analyze_results.py**
 This script takes two files as an input: execution times of analyzing assemblies (see: /measurements/measurements_combined.csv) and results of analyzing assemblies (see: /measurements/results.csv).
-The script plots the execution times (see: /measurements/execution_times.pdf) and torsional vibration amplitudes (see: /measurements/results.pdf). In addition, it prints the 
+The script plots the execution times (see: /measurements/execution_times.pdf) and torsional vibration amplitudes (see: /measurements/results.pdf). In addition, it prints the exection times including min, max, median, average and mean absolute error.
 
 **/measurements/execution_times.pdf**
+Execution times plottes with Violin plot style.
 
 **/measurements/find_optimal_design_threaded_measurements.py**
+This is a modified version of the *find_optimal_design_threaded.py* in the root folder for the measurements. The modifications include functions to measure execution times and limiting the number of concurrent connections to the Flask server.
 
 **/measurements/measurements_combined.csv**
+Execution times of running *find_optimal_design_threaded_measurements.py* script with the given parameters.
 
 **/measurements/results.csv**
+Maximum torsional vibration of the tested assemblies.
 
 **/measurements/results.pdf**
+Plot of maximum torsional vibration of the tested assemblies.
 
 **/measurements/tests.py**
+This script is use to run performance measurements. First a DTID of a system design, i.e., Digital Design Template is given as input. Thereafter, user can either specify the list of components that script uses to find optimal component candidates or a DTID of a component catalog stored in Twinbase, for example, https://dtid.org/4802e224-b05d-45df-9b5e-35a8f23af79f.
 
 
 
