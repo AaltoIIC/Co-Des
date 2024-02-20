@@ -11,6 +11,7 @@ Digital Twin Documents for development are located in this Twinbase instance: ht
 
 The repository structure is presented as a tree below. Next the structure is presented in more detail
 
+```sh
 ├── flask_server
 │   ├── app.py
 │   ├── config.py
@@ -30,12 +31,13 @@ The repository structure is presented as a tree below. Next the structure is pre
 │   ├── ddt.md
 │   ├── tors.md
 │   └── twinschema.md
+├── find_optimal_design_threaded.py
 ├── LICENSE
 ├── README.md
-├── find_optimal_design_threaded.py
 └── requirements.txt
+```
 
-**/flask_server**
+### **/flask_server**
 This folder contains files necessary to run an example analysis server. This server implements a torsional vibration analysis of a given assembly using openTorsion library.
 
 **/flask_server/app.py**
@@ -59,7 +61,7 @@ This folder contains files that provide helper functions to run the torsional vi
 This script calculates the maximum torsional vibration amplitude for a system with a specific excitations and rpm range. Th script follows the [Forced response example](https://github.com/Aalto-Arotor/openTorsion/blob/main/opentorsion/examples/forced_response.py) from openTorsion library. This example was modified to be able to take varying excitation as an input. 
 
 **/flask_server/flask_utils/openTorsion_converter.py**
-This scripts takes a list of component DTIDs as an input and creates an openTorsion assembly from these components. The script fetches the component information from the Digital Twin Descriptions Documents of components stored in [Twinbase](https://github.com/twinbase/twinbase). These information include for example damping and excitation of components.
+This scripts takes a list of component DTIDs as an input and creates an openTorsion assembly from these components. The script fetches the component information from the Digital Twin Descriptions Documents of components stored in [Twinbase](https://github.com/twinbase/twinbase). These information include, for example, damping and excitation of components.
 
 
 **/measurements**
@@ -67,6 +69,20 @@ This folder contains all the files necessary to run performance measurements.
 
 
 **/measurements/analyze_results.py**
+This script takes two files as an input: execution times of analyzing assemblies (see: /measurements/measurements_combined.csv) and results of analyzing assemblies (see: /measurements/results.csv).
+The script plots the execution times (see: /measurements/execution_times.pdf) and torsional vibration amplitudes (see: /measurements/results.pdf). In addition, it prints the 
+
+**/measurements/execution_times.pdf**
+
+**/measurements/find_optimal_design_threaded_measurements.py**
+
+**/measurements/measurements_combined.csv**
+
+**/measurements/results.csv**
+
+**/measurements/results.pdf**
+
+**/measurements/tests.py**
 
 
 
