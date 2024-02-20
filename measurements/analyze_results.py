@@ -3,7 +3,7 @@ from statistics import mean, median, stdev
 import matplotlib.pyplot as plt
 
 FILENAME = "measurements_combined.csv"
-FILENAME_RESULTS = "results.txt"
+FILENAME_RESULTS = "results.csv"
 
 def read_results(filename):
     with open(filename, newline='') as csvfile:
@@ -18,7 +18,7 @@ def calc_MAS(values):
     return sum/len(values) #Error
 
 
-#Copied from: https://github.com/juusoautiosalo/dtweb-measurements/blob/main/plotting_module.py. Originally written by Juuso Autiosalo
+#Copied from: https://github.com/juusoautiosalo/dtweb-measurements/blob/main/plotting_module.py. Originally written by Juuso Autiosalo.
 def plot_network_fetch_times(data):
     """
     Plots execution times of find_optimal_design_threaded.py script

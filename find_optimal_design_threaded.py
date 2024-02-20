@@ -8,7 +8,8 @@ import gc
 import threading
 import requests
 
-DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"
+
+DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16" #Digital design template defining the system design
 #LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"] #Turbine, shaft, rotor
 LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", "https://dtid.org/19707b48-028a-49ef-abc1-778e68b6010f", "https://dtid.org/6ae3e218-2152-4635-a61a-696c6e0584e6", "https://dtid.org/977bf820-fc6a-49c8-8002-388f7beb1148"]
 
@@ -66,7 +67,6 @@ def print_results(results_array, shape):
         print(idx, index, results_array[index])
 
 def torque_analysis(analysis, component_urls_for_assembly, analysis_results):
-        #print('\nFound torque analysis!\n')
         #Select first analysis service
         analysis_service_dtid = analysis[SUITABLE_SERVICES][0][DTID][0]["@value"]
         ddt = dtweb.client.fetch_dt_doc(analysis_service_dtid)
@@ -200,7 +200,7 @@ def find_optimal_assemblies(dtid_of_DDT, component_candidates, number_of_optimal
         component_option_url = find_suitable_components_from_list_of_urls(components[i]["@type"][0], components[i][COMPONENT_REQUIREMENTS], component_candidates)
         component_options_urls.append(component_option_url)
 
-    # Create very multidimensional array for looping through solutions
+    # Create a multidimensional array for looping through solutions
     shape = [len(suitable_components) for suitable_components in component_options_urls]
     results = [] #Initialize results array. Index is the assembly candidate and value is AnalysisResults object.
     threads = []

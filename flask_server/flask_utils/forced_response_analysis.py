@@ -51,24 +51,6 @@ def generator_torque(rpm):
     return torque
 
 
-def get_windmill_excitation(rpm):
-    """
-    Cogging torque and torque ripple as harmonic excitation.
-    (Table III from https://doi.org/10.1109/TIE.2010.2087301)
-    """
-    f_s = rpm
-    vs = np.array([4, 6, 8, 10, 12, 14, 16])
-    omegas = 2 * np.pi * vs * f_s
-
-    rated_T = 2.9e6
-    amplitudes = np.array(
-        [0.0018, 0.0179, 0.0024, 0.0034, 0.0117, 0.0018, 0.0011]
-    ) * generator_torque(rpm)
-    amplitudes[4] += rated_T * 0.0176 #TODO: what is this???
-
-    return omegas, amplitudes
-
-
 def forced_response(assembly, excitation_dict, rpm_linspace):
     """
     Run a forced response analysis to an opentorsion assembly.
