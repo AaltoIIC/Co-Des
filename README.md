@@ -40,6 +40,8 @@ The repository structure is presented as a tree below. Next this structure is pr
 
 ### **/flask_server**
 This folder contains files necessary to run an example analysis server. This server implements a torsional vibration analysis of a given assembly using openTorsion library.
+The server has only one endpoint /v1/opentorsion. The server specification in OpenAPI format can be find from: https://juusoautiosalo.github.io/dev-twinbase-ddt/16b5f878-e6a1-47fc-8b6a-bb168b29dfe8/openapi.yaml
+
 
 #### **/flask_server/app.py**
 App.py is part of default Flask file structure and defines the application. Run this file to run the server:
@@ -52,8 +54,31 @@ Flask server configuration. Remember to change SECRET_KEY for production.
 
 #### **/flask_server/views.py**
 Contains the endpoints of the server and the associated operations. Currently, there is only one endpoint: /v1/opentorsion.
-This endpoint takes as an input the components forming an assembly and the tested RPM range. The endpoint returns the maximum torsional vibration amplitude of the system.
+This endpoint takes as an input the components forming an assembly and the tested RPM range in a JSON format. The endpoint returns the maximum torsional vibration amplitude of the system.
+An example input for the system is as follows:
 
+{
+  "assembly_urls": [
+    "https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d",
+    "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808",
+    "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"
+  ],
+  "linspace": {
+    "start": 0.1,
+    "stop": 25,
+    "num": 5000
+  }
+}
+```
+"assembly_urls" is a list of component DTID (Digital Twin IDentifiers, i.e., urls referencing to the corresponding digital twin document. For example, https://dtid.org/c8060ee0-8abe-4a25-a3b3-7f90ea55d616) that form an assembly.
+"linspace" defines the RPMs the powertrain is tested. "num" specifies how many test points are formed between "start" and "stop" values.
+
+The server returns the maximum torsional vibration for the system:
+```sh
+{
+  "max_amplitude": 53123.235
+}
+```
 
 #### **/flask_server/flask_utils**
 This folder contains files that provide helper functions to run the torsional vibration analysis. These functions are called from views.py file.
@@ -150,10 +175,19 @@ Windows:
 pip install -r requirements.txt
 ```
 
-## Run
+## Use of the framework
 
-### Analysis server
+Next, it is presented how the Co-Des framework can be used to analyze selected components and how performance tests can be run.
+
+### Analyzing components
+
+Analyzing components requires first to start an analysis server, to which assemblies are sent to be analyzed. Thereafter, *find_optimal_design_threaded.py* script is run that analyzes all possible assemblies for the selected system design with a given set of components.
+
+#### Start analysis server
 Open new terminal or command window and navigate to flask_server folder.
+```sh
+cd flask_server
+```
 
 Start analysis server by running:
 Linux:
@@ -166,7 +200,7 @@ Windows:
 python app.py
 ```
 
-### Find optimal design
+#### Analyze assemblies
 Now that analysis server is running, the optimal design finder script can be executed. Go to the root folder and run:
 
 Linux:
@@ -178,6 +212,8 @@ Windows:
 ```sh
 python find_optimal_design_threaded.py
 ```
+
+### Running measurements
 
 
 ## Authors
