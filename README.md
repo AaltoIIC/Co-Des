@@ -57,6 +57,7 @@ Contains the endpoints of the server and the associated operations. Currently, t
 This endpoint takes as an input the components forming an assembly and the tested RPM range in a JSON format. The endpoint returns the maximum torsional vibration amplitude of the system.
 An example input for the system is as follows:
 
+```sh
 {
   "assembly_urls": [
     "https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d",
