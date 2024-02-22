@@ -317,10 +317,10 @@ python analyze_results.py
 
 The performance measurement results are plotted to execution_times.pdf file:
 
-![execution times](/measurements/execution_times.pdf)
+![execution times](measurements/execution_times.pdf)
 The torsional vibration analysis results to results.pdf file:
 
-![results](/measurements/results.pdf)
+![results](measurements/results.pdf)
 
 
 Furthermore, the statistical properties of measurements are printed:
