@@ -21,9 +21,11 @@ The repository structure is presented as a tree below. Next this structure is pr
 │       └── openTorsion_converter.py
 ├── measurements
 │   ├── analyze_results.py
+│   ├── execution_times.jpg
 │   ├── execution_times.pdf
 │   ├── find_optimal_design_threaded_measurements.py
 │   ├── measurements_combined.csv
+│   ├── results.jpg
 │   ├── results.pdf
 │   ├── results.txt
 │   └── tests.py
@@ -99,8 +101,11 @@ This folder contains all the files necessary to run performance measurements.
 This script takes two files as an input: execution times of analyzing assemblies (see: /measurements/measurements_combined.csv) and results of analyzing assemblies (see: /measurements/results.csv).
 The script plots the execution times (see: /measurements/execution_times.pdf) and torsional vibration amplitudes (see: /measurements/results.pdf). In addition, it prints the exection times including min, max, median, average and mean absolute error.
 
-#### **/measurements/execution_times.pdf**
-Execution times plottes with Violin plot style.
+#### **/measurements/execution_times.jpg/**
+Execution times plotted with Violin plot style (.jpg format to be visible in GitHub).
+
+#### **/measurements/execution_times.pdf/**
+Execution times plotted with Violin plot style.
 
 #### **/measurements/find_optimal_design_threaded_measurements.py**
 This is a modified version of the *find_optimal_design_threaded.py* in the root folder for the measurements. The modifications include functions to measure execution times and limiting the number of concurrent connections to the Flask server.
@@ -110,6 +115,9 @@ Execution times of running *find_optimal_design_threaded_measurements.py* script
 
 #### **/measurements/results.csv**
 Maximum torsional vibration of the tested assemblies.
+
+#### **/measurements/results.jpg**
+Plot of maximum torsional vibration of the tested assemblies (.jpg format to be visible in GitHub).
 
 #### **/measurements/results.pdf**
 Plot of maximum torsional vibration of the tested assemblies.
@@ -317,10 +325,11 @@ python analyze_results.py
 
 The performance measurement results are plotted to execution_times.pdf file:
 
-![execution times](/measurements/execution_times.pdf)
+![execution times](/measurements/execution_times.jpg)
+
 The torsional vibration analysis results to results.pdf file:
 
-![results](/measurements/results.pdf)
+![results](/measurements/results.jpg)
 
 
 Furthermore, the statistical properties of measurements are printed:
