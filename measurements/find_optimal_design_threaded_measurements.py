@@ -13,6 +13,8 @@ import traceback
 # For testing
 gc.disable()
 
+#Results file
+RESULTS_FILE = 'results.csv'
 
 MAX_CONNECTIONS = 20
 DTID_OF_DDT = "https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16"
@@ -73,10 +75,10 @@ def print_results(results_array, shape):
         print(idx, index, results_array[index])
 
 def save_results(results_array, shape):
-    with open('results.txt', 'w') as f:
+    with open(RESULTS_FILE, 'w') as f:
         for idx in itertools.product(*[range(s) for s in shape]):
             index = np.ravel_multi_index(idx, shape)
-            print([idx, index, results_array[index], results_array[index].analysis_results["Analysis service for torsional vibration"]])
+            #print([idx, index, results_array[index], results_array[index].analysis_results["Analysis service for torsional vibration"]])
             f.write(";".join([str(item) for item in [idx, index, results_array[index].component_urls, results_array[index].analysis_results["Analysis service for torsional vibration"]]]) + "\n")
 
 def torque_analysis(analysis, component_urls_for_assembly, analysis_results):

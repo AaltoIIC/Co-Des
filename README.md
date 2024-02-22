@@ -62,7 +62,7 @@ An example input for the system is as follows:
   "assembly_urls": [
     "https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d",
     "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808",
-    "https://dtid.org/efa0d72f-994d-4ad4-9f16-f1565371a18d"
+    "https://dtid.org/19707b48-028a-49ef-abc1-778e68b6010f"
   ],
   "linspace": {
     "start": 0.1,
@@ -77,7 +77,7 @@ An example input for the system is as follows:
 The server returns the maximum torsional vibration for the system:
 ```sh
 {
-  "max_amplitude": 53123.235
+    "max_amplitude": 41999.921
 }
 ```
 
@@ -139,12 +139,12 @@ This script is used to find the optimal components for a system described in a D
 This work uses MIT licence defined in this file.
 
 ### **requirements.txt**
-Python libraries needed to run the Co-Des framework.
+Python libraries and their versions numbers needed to run the Co-Des framework.
 
 
 
 ## Install
-Note: The current version of the repository is tested with Python 3.11.4.
+Note: The current version of the repository is tested with Python 3.11.4/MacOS 14.3.1/M2 Max processor.
 
 Clone source code
 ```sh
@@ -202,11 +202,16 @@ python app.py
 ```
 
 #### Analyze assemblies
-Now that analysis server is running, the optimal design finder script can be executed. Go to the root folder and run:
+Now that analysis server is running, *find_optimal_design_threaded.py* script can be executed.
+
+In the beginning of the script, the DTID of Deigital Design Template is given. You can use for example: https://dtid.org/2ef85647-aee2-40c5-bb5a-380c9563ed16, which we have defined for a Windmill Drivetrain.
+Thereafter, a list of component DTID that acts a catalog of possible components. A list of DTID's of example components for Windmill example can be found from: https://dtid.org/4802e224-b05d-45df-9b5e-35a8f23af79f. This catalog contains 60 components, i.e., 20 for each component type (rotor, shaft, turbine).
+
+After the system design and component candidates have been defined, go to the root folder and run the script:
 
 Linux:
 ```sh
-python3 python find_optimal_design_threaded.py
+python3 find_optimal_design_threaded.py
 ```
 
 Windows:
@@ -214,8 +219,121 @@ Windows:
 python find_optimal_design_threaded.py
 ```
 
-### Running measurements
 
+
+### Performance measurements
+
+#### Run measurements
+
+To run measurements, first start the analysis server as previously presented:
+Open new terminal or command window and navigate to flask_server folder.
+```sh
+cd flask_server
+```
+
+Start analysis server by running:
+Linux:
+```sh
+python3 app.py
+```
+
+Windows:
+```sh
+python app.py
+```
+
+After the analysis server is running, open a new terminal and go to the measurements folder:
+```sh
+cd measurements
+```
+
+*tests.py* file containes the actual tests. From this file, the test parameters can be set: 
+
+Where measurement results are stored:
+```sh
+FILENAME = "measurements_test.csv"
+```
+
+How many rounds of measurements: 
+```sh
+NUMBER_OF_MEASUREMENTS = 1
+```
+
+Use catalogue of DT components:
+```sh
+USE_CATALOGUE = True
+
+CATALOGUE_URL = "https://dtid.org/4802e224-b05d-45df-9b5e-35a8f23af79f"
+```
+
+Use a list component DTIDs instead:
+```sh
+USE_CATALOGUE = False
+
+LIST_OF_COMPONENT_CANDIDATES = ["https://dtid.org/e85c46f4-bdc2-4e0e-acd2-6b0ae582072d", 
+                                "https://dtid.org/1febe1f0-16ff-4245-8fb2-759c93b01808", 
+                                "https://dtid.org/19707b48-028a-49ef-abc1-778e68b6010f", 
+                                "https://dtid.org/6ae3e218-2152-4635-a61a-696c6e0584e6", 
+                                "https://dtid.org/977bf820-fc6a-49c8-8002-388f7beb1148"]
+```
+
+
+To configure, where the analysis results are stored, go to *find_optimal_design_threaded_measurements.py* file and set variable:
+```sh
+RESULTS_FILE = 'results.csv'
+```
+
+When the test configuration is ready, the tests are simply run:
+Linux:
+```sh
+python3 tests.py
+```
+
+Windows:
+```sh
+python tests.py
+```
+
+
+#### Analyze the measurements
+To analyze the results, *analyze_results.py* script can be run from */measurements* folder.
+Remember to set the same filenames as used when running measurements:
+
+```sh
+FILENAME = "measurements_combined.csv"
+FILENAME_RESULTS = "results.csv"
+```
+
+Run the analysis script:
+Linux:
+```sh
+python3 analyze_results.py
+```
+
+Windows:
+```sh
+python analyze_results.py
+```
+
+The performance measurement results are plotted to execution_times.pdf file:
+
+![execution times](/measurements/execution_times.pdf)
+The torsional vibration analysis results to results.pdf file:
+
+![results](/measurements/results.pdf)
+
+
+Furthermore, the statistical properties of measurements are printed:
+```sh
+|Value    |       ReadDDT        |FindSuitableComponents| AnalyzingAssemblies  |      TotalTime       |
+-------------------------------------------------------------------------------------------------------
+|Min      |                 0.906|                 3.390|              3711.250|              3715.828|
+|Max      |                 1.203|                 8.235|              3763.079|              3767.672|
+|Mean     |                 0.980|                 3.679|              3730.282|              3735.070|
+|Median   |                 0.969|                 3.500|              3730.368|              3734.985|
+|Std. Dev.|              0.044015|              0.801404|              9.603307|              9.658739|
+|MAE      |              0.029557|              0.307730|              7.355155|              7.407974|
+```
 
 ## Authors
 
