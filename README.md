@@ -156,9 +156,13 @@ Note: The current version of the repository is tested with Python 3.11.4/MacOS 1
 
 Clone source code
 ```sh
-git clone git@github.com:AaltoIIC/digital-design-template.git
-cd digital-design-template
+git clone https://github.com/AaltoIIC/Co-Des.git
 ```
+Go to the cloned repository:
+```sh
+cd Co-Des
+```
+
 Create and activate virtual environment (recommended)
 
 Linux:
