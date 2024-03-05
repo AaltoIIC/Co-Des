@@ -73,7 +73,7 @@ An example input for the system is as follows:
   }
 }
 ```
-"assembly_urls" is a list of component DTID (Digital Twin IDentifiers, i.e., urls referencing to the corresponding digital twin document. For example, https://dtid.org/c8060ee0-8abe-4a25-a3b3-7f90ea55d616) that form an assembly.
+"assembly_urls" is a list of component DTID (Digital Twin IDentifiers, i.e., urls referencing to the corresponding digital twin document, for example, https://dtid.org/c8060ee0-8abe-4a25-a3b3-7f90ea55d616 forming an assembly.
 "linspace" defines the RPMs the powertrain is tested. "num" specifies how many test points are formed between "start" and "stop" values.
 
 The server returns the maximum torsional vibration for the system:
