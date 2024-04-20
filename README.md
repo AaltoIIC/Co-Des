@@ -87,10 +87,10 @@ The server returns the maximum torsional vibration for the system:
 This folder contains files that provide helper functions to run the torsional vibration analysis. These functions are called from views.py file.
 
 #### **/flask_server/flask_utils/forced_response_analysis.py**
-This script calculates the maximum torsional vibration amplitude for a system with a specific excitations and rpm range. Th script follows the [Forced response example](https://github.com/Aalto-Arotor/openTorsion/blob/main/opentorsion/examples/forced_response.py) from openTorsion library. This example was modified to be able to take varying excitation as an input. 
+This script calculates the maximum torsional vibration amplitude for a system with specific excitations and rpm range. Th script follows the [Forced response example](https://github.com/Aalto-Arotor/openTorsion/blob/main/opentorsion/examples/forced_response.py) from openTorsion library. This example was modified to be able to take varying excitation as an input. 
 
 #### **/flask_server/flask_utils/openTorsion_converter.py**
-This scripts takes a list of component DTIDs as an input and creates an openTorsion assembly from these components. The script fetches the component information from the Digital Twin Descriptions Documents of components stored in [Twinbase](https://github.com/twinbase/twinbase). These information include, for example, damping and excitation of components.
+This script takes a list of component DTIDs as input and creates an openTorsion assembly from these components. The script fetches the component information from the Digital Twin Descriptions Documents of components stored in [Twinbase](https://github.com/twinbase/twinbase). This information includes, for example, damping and excitation of components.
 
 
 ### **/measurements**
@@ -230,15 +230,15 @@ Windows:
 ```sh
 python find_optimal_design_threaded.py
 ```
-
+The script prints the maximum torsional vibration for each assembly.
 
 
 ### Performance measurements
 
 #### Run measurements
-
+Note: Running measurements with current settings takes approximately 1 hour.
 To run measurements, first start the analysis server as previously presented:
-Open new terminal or command window and navigate to flask_server folder.
+Open a new terminal or command window and navigate to the flask_server folder.
 ```sh
 cd flask_server
 ```
@@ -327,11 +327,11 @@ Windows:
 python analyze_results.py
 ```
 
-The performance measurement results are plotted to execution_times.pdf file:
+The performance measurement results are plotted in execution_times.pdf file:
 
 ![execution times](/measurements/execution_times.jpg)
 
-The torsional vibration analysis results to results.pdf file:
+The torsional vibration analysis results in results.pdf file:
 
 ![results](/measurements/results.jpg)
 
